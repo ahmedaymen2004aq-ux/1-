@@ -1,258 +1,1122 @@
+```html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>شِفَاء وَنَبْض Enterprise - النسخة المستقرة والمبهرة</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>شِفَاء وَنَبْض Enterprise - تصميم وتطوير: المهندس أيمن</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chart.js for Live Analytics -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
+    <!-- Three.js for 3D Biotech Visualizer -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#090d16',      /* Ultra Dark space blue */
+                        panel: '#111827',        /* Sleek card grey */
+                        secondary: '#0f766e',    /* Deep Teal */
+                        accent: '#14b8a6',       /* Mint Accent */
+                        highlight: '#38bdf8',    /* Cyan Glow */
+                        warning: '#ef4444'       /* Safe red */
+                    },
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif'],
+                        code: ['Fira Code', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap');
-        body { font-family: 'Cairo', sans-serif; background-color: #06090f; color: #f0f6fc; }
-        
-        .glass-card { 
-            background: rgba(13, 17, 23, 0.85); 
-            backdrop-filter: blur(12px); 
-            border: 1px solid rgba(48, 54, 61, 0.8); 
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
-            transition: all 0.3s ease;
+        body {
+            font-family: 'Cairo', sans-serif;
+            scroll-behavior: smooth;
+            background-color: #090d16;
         }
-        .glass-card:hover { border-color: #34d399; transform: translateY(-2px); }
-        .active-nav-btn { background: #047857 !important; color: white !important; border-right: 4px solid #34d399; }
-        
-        /* خط الليزر التفاعلي للأشعة */
-        .laser-scanner { 
-            height: 4px; 
-            background: linear-gradient(90deg, transparent, #ef4444, transparent); 
-            animation: scanEffect 2s linear infinite; 
-            box-shadow: 0 0 12px #ef4444;
+        .glow-border {
+            border: 1px solid rgba(20, 184, 166, 0.15);
+            box-shadow: 0 0 15px rgba(20, 184, 166, 0.05);
         }
-        @keyframes scanEffect { 0% { top: 0%; } 50% { top: 100%; } 100% { top: 0%; } }
-        .pulse-glow { animation: pulseGlow 2s infinite; }
-        @keyframes pulseGlow { 0%, 100% { opacity: 0.7; } 50% { opacity: 1; } }
+        .glow-border:hover {
+            border-color: rgba(20, 184, 166, 0.4);
+            box-shadow: 0 0 25px rgba(20, 184, 166, 0.15);
+        }
+        /* Scanner laser animation */
+        @keyframes scan {
+            0% { top: 0%; opacity: 0.8; }
+            50% { top: 100%; opacity: 0.8; }
+            100% { top: 0%; opacity: 0.8; }
+        }
+        .scanner-line {
+            animation: scan 3s linear infinite;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #090d16; }
+        ::-webkit-scrollbar-thumb { background: #1f2937; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #14b8a6; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col">
+<body class="text-slate-100 min-h-screen flex flex-col overflow-x-hidden">
 
-    <div class="bg-slate-900 text-white text-center py-2.5 px-6 text-sm font-bold flex justify-between items-center border-b border-emerald-500/30">
-        <div class="flex items-center space-x-2 space-x-reverse">
-            <span class="flex h-3 w-3 relative">
+    <!-- Top Premium Developer Banner -->
+    <div class="bg-gradient-to-r from-teal-950 via-primary to-slate-950 text-white text-[12px] font-bold py-2.5 px-4 text-center border-b border-accent/20 relative z-50 flex flex-wrap justify-between items-center gap-3">
+        <div class="flex items-center gap-2">
+            <span class="flex h-2 w-2 relative">
                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
             </span>
-            <span>شِفَاء وَنَبْض Enterprise v3.5 - النسخة المعتمدة</span>
+            <span>المنظومة السحابية الطبية الموحدة <strong class="text-accent">شِفَاء وَنَبْض Enterprise v2.5</strong></span>
         </div>
-        <div>
-            <span><i class="fa-solid fa-graduation-cap ml-1 text-emerald-400"></i> مشروع تخرج المهندس أيمن</span>
+        <div class="flex items-center gap-4">
+            <span><i class="fa-solid fa-code-branch text-highlight ml-1"></i> مهندس البرمجيات: <strong class="text-accent underline underline-offset-4">أيمن (Cap: Aymen)</strong></span>
+            <span class="hidden md:inline-block">|</span>
+            <a href="tel:01212686014" class="text-highlight hover:underline"><i class="fa-solid fa-phone ml-1"></i> 01212686014</a>
         </div>
     </div>
 
-    <div class="flex flex-1 flex-col lg:flex-row">
-        <aside class="w-full lg:w-72 glass-card p-5 flex flex-col justify-between border-l border-gray-800">
-            <div>
-                <div class="text-center py-4 bg-emerald-950/20 rounded-xl p-3 mb-6">
-                    <h1 class="text-2xl font-black text-emerald-400"><i class="fa-solid fa-heart-pulse ml-2 animate-pulse"></i>شِفَاء وَنَبْض</h1>
-                    <span class="text-[10px] text-gray-400 block mt-1 font-bold">DIGITAL HEALTHCARE ECOSYSTEM</span>
+    <!-- Navigation Header -->
+    <header class="bg-panel/95 backdrop-blur-md sticky top-0 z-40 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3 space-x-reverse cursor-pointer" onclick="switchTab('dashboard')">
+                <div class="bg-gradient-to-br from-accent to-secondary p-3 rounded-2xl shadow-lg shadow-teal-500/10">
+                    <i class="fa-solid fa-square-h text-2xl text-primary animate-pulse"></i>
                 </div>
-                
-                <nav class="space-y-2">
-                    <button onclick="changeTab('dashboard')" id="nav-dashboard" class="w-full flex items-center p-3 rounded-xl text-right transition active-nav-btn"><i class="fa-solid fa-chart-line ml-3 text-emerald-400"></i> لوحة التحكم والتحليلات</button>
-                    <button onclick="changeTab('doctor')" id="nav-doctor" class="w-full flex items-center p-3 rounded-xl text-right transition text-gray-300"><i class="fa-solid fa-user-doctor ml-3 text-cyan-400"></i> عيادة الطبيب والروشتات</button>
-                    <button onclick="changeTab('pharmacy')" id="nav-pharmacy" class="w-full flex items-center p-3 rounded-xl text-right transition text-gray-300"><i class="fa-solid fa-prescription-bottle-medical ml-3 text-amber-400"></i> المستودع الدوائي الذكي</button>
-                    <button onclick="changeTab('radiology')" id="nav-radiology" class="w-full flex items-center p-3 rounded-xl text-right transition text-gray-300"><i class="fa-solid fa-microscope ml-3 text-red-400"></i> مختبر الأشعة والـ AI</button>
-                    <button onclick="changeTab('patient')" id="nav-patient" class="w-full flex items-center p-3 rounded-xl text-right transition text-gray-300"><i class="fa-solid fa-robot ml-3 text-purple-400"></i> بوابة المريض والـ Med-Bot</button>
-                </nav>
-            </div>
-            <div class="text-center text-xs text-gray-500 pt-4 border-t border-gray-800">تطوير الطالب أيمن &copy; 2026</div>
-        </aside>
-
-        <main class="flex-1 p-6 lg:p-8 overflow-y-auto">
-            
-            <div id="tab-dashboard" class="tab-content space-y-6">
-                <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-                    <div class="glass-card p-5 rounded-2xl flex items-center justify-between border-r-4 border-emerald-500">
-                        <div><p class="text-gray-400 text-xs font-bold">الحجوزات السحابية</p><h3 class="text-3xl font-black mt-1 text-emerald-400">1,248</h3></div>
-                        <div class="p-3 bg-emerald-950/40 rounded-xl"><i class="fa-solid fa-calendar-check text-2xl text-emerald-400"></i></div>
-                    </div>
-                    <div class="glass-card p-5 rounded-2xl flex items-center justify-between border-r-4 border-cyan-500">
-                        <div><p class="text-gray-400 text-xs font-bold">تحليلات الـ AI للأشعة</p><h3 class="text-3xl font-black mt-1 text-cyan-400">412</h3></div>
-                        <div class="p-3 bg-cyan-950/40 rounded-xl"><i class="fa-solid fa-brain text-2xl text-cyan-400"></i></div>
-                    </div>
-                    <div class="glass-card p-5 rounded-2xl flex items-center justify-between border-r-4 border-red-500">
-                        <div><p class="text-gray-400 text-xs font-bold">التداخلات الممنوعة</p><h3 class="text-3xl font-black mt-1 text-red-400">18</h3></div>
-                        <div class="p-3 bg-red-950/40 rounded-xl"><i class="fa-solid fa-shield-halved text-2xl text-red-400"></i></div>
-                    </div>
-                    <div class="glass-card p-5 rounded-2xl flex items-center justify-between border-r-4 border-purple-500">
-                        <div><p class="text-gray-400 text-xs font-bold">الأدوية المسجلة</p><h3 class="text-3xl font-black mt-1 text-purple-400">120+</h3></div>
-                        <div class="p-3 bg-purple-950/40 rounded-xl"><i class="fa-solid fa-pills text-2xl text-purple-400"></i></div>
-                    </div>
-                </div>
-
-                <div class="glass-card p-6 rounded-2xl">
-                    <h4 class="font-bold text-gray-200 mb-4"><i class="fa-solid fa-chart-line ml-2 text-emerald-400"></i>مراقبة الأداء العام ومعدلات الصرف الفوري للأدوية والـ AI</h4>
-                    <canvas id="complexMedicalChart" class="w-full" height="100"></canvas>
+                <div>
+                    <span class="text-2xl font-black tracking-tight bg-gradient-to-r from-accent via-cyan-400 to-emerald-400 bg-clip-text text-transparent">شِفَاء وَنَبْض</span>
+                    <span class="block text-[10px] text-slate-400 uppercase tracking-widest font-mono">Cloud Medical Ecosystem</span>
                 </div>
             </div>
 
-            <div id="tab-doctor" class="tab-content hidden space-y-6">
-                <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
-                    <div class="glass-card p-6 rounded-2xl xl:col-span-2">
-                        <h3 class="text-xl font-bold text-cyan-400 mb-4"><i class="fa-solid fa-file-medical ml-2"></i>منظومة تحرير الروشتات وفحص الأمان الدوائي</h3>
-                        <div class="space-y-4">
-                            <div>
-                                <label class="block text-xs font-bold text-gray-400 mb-2">اسم المريض</label>
-                                <input type="text" value="عمر عبد العزيز محمود" class="w-full p-3 rounded-xl bg-gray-950 border border-gray-800 text-white focus:outline-none">
-                            </div>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                    <label class="block text-xs font-bold text-amber-400 mb-2">العلاج الأول (مضاد تجلط)</label>
-                                    <select id="medical-drug-1" class="w-full p-3 rounded-xl bg-gray-950 border border-gray-800 text-white">
-                                        <option value="warfarin">وارفارين (Warfarin 5mg)</option>
-                                        <option value="omeprazole">أوميبرازول (Omeprazole 20mg)</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-bold text-red-400 mb-2">العلاج الثاني (مسيل دم حاد)</label>
-                                    <select id="medical-drug-2" class="w-full p-3 rounded-xl bg-gray-950 border border-gray-800 text-white">
-                                        <option value="aspirin">أسبرين (Aspirin 81mg) [تداخل حرج وممنوع]</option>
-                                        <option value="insulin">أنسولين (Insulin Glargine)</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <button onclick="checkPrescription()" class="w-full bg-cyan-600 hover:bg-cyan-500 text-white font-bold p-3.5 rounded-xl transition mt-4">
-                                <i class="fa-solid fa-share-nodes ml-2"></i> إرسال الروشتة وفحص التداخل تلقائياً
-                            </button>
+            <!-- Responsive Desktop Navigation -->
+            <nav class="hidden lg:flex space-x-8 space-x-reverse text-sm font-semibold">
+                <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn text-accent border-b-2 border-accent pb-2 transition-all">لوحة التحكم</button>
+                <button onclick="switchTab('radiology')" id="nav-radiology" class="nav-btn text-slate-400 hover:text-white pb-2 transition-all">مختبر الأشعة الذكي</button>
+                <button onclick="switchTab('booking')" id="nav-booking" class="nav-btn text-slate-400 hover:text-white pb-2 transition-all">حجز العيادات السريع</button>
+                <button onclick="switchTab('pharmacy')" id="nav-pharmacy" class="nav-btn text-slate-400 hover:text-white pb-2 transition-all flex items-center gap-2">الصيدلية السحابية <span id="cart-badge-count" class="bg-red-500 text-white text-[10px] px-1.5 py-0.5 rounded-full hidden">0</span></button>
+                <button onclick="switchTab('chatbot')" id="nav-chatbot" class="nav-btn text-slate-400 hover:text-white pb-2 transition-all">المساعد الذكي Med-LLM</button>
+            </nav>
+
+            <div class="flex items-center gap-3">
+                <button onclick="switchTab('doctor-portal')" class="bg-gradient-to-l from-accent to-secondary hover:from-cyan-400 hover:to-teal-600 text-primary font-black text-xs sm:text-sm py-2.5 px-5 rounded-2xl transition-all shadow-lg shadow-teal-500/10 flex items-center gap-2">
+                    <i class="fa-solid fa-user-doctor"></i> بوابة الطبيب
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Floating Developer Action Center -->
+    <div class="fixed float-dev bottom-8 right-8 z-[100] flex flex-col items-center gap-2">
+        <button onclick="openDevModal()" class="bg-panel text-accent w-16 h-16 rounded-2xl shadow-2xl border-2 border-accent/40 flex items-center justify-center text-3xl hover:border-accent transition-all animate-pulse">
+            <i class="fa-solid fa-user-gear"></i>
+        </button>
+        <span class="text-[10px] font-bold bg-panel/90 text-accent px-2 py-1 rounded-md border border-accent/20 backdrop-blur-sm">المطور: كاب أيمن</span>
+    </div>
+
+    <!-- Main Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- 1. DASHBOARD TAB -->
+        <section id="tab-dashboard" class="tab-content block space-y-8">
+            <!-- Glassmorphism Banner with 3D Canvas integration -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+                <div class="lg:col-span-2 bg-gradient-to-br from-panel via-slate-900 to-teal-950 rounded-[32px] p-8 sm:p-12 text-white shadow-2xl relative overflow-hidden border border-slate-800">
+                    <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#2dd4bf_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                    <div class="relative z-10 max-w-xl">
+                        <span class="bg-secondary/40 text-accent border border-accent/30 text-[11px] px-3 py-1.5 rounded-full font-bold tracking-widest inline-block mb-4">ENTERPRISE CLOUD SYSTEM</span>
+                        <h1 class="text-3xl sm:text-5xl font-black leading-tight">الجيل الجديد للطب الرقمي <br><span class="text-accent">بأقوى الحلول السحابية</span></h1>
+                        <p class="text-slate-400 mt-4 leading-relaxed text-sm sm:text-base">نظام بيئي برمجي موحد ومستدام لإدارة المستشفيات والعيادات والصيدليات، تم تصميمه بعمارة برمجية تفصل العمليات بدقة عالية لضمان سرعة معالجة الأدوية والروشتات بدقة تشخيص تصل إلى 99.8%.</p>
+                        <div class="flex flex-wrap gap-4 mt-8">
+                            <button onclick="switchTab('radiology')" class="bg-accent text-primary font-bold py-3 px-6 rounded-2xl text-xs hover:bg-cyan-400 transition-all flex items-center gap-2">ابدأ فحص الأشعة <i class="fa-solid fa-wand-magic-sparkles"></i></button>
+                            <button onclick="switchTab('pharmacy')" class="bg-slate-800 border border-slate-700 hover:bg-slate-700 text-white font-bold py-3 px-6 rounded-2xl text-xs transition-all">الصيدلية السحابية</button>
                         </div>
                     </div>
-                    <div class="glass-card p-6 rounded-2xl text-center flex flex-col items-center justify-center">
-                        <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=300&q=80" alt="Doctor" class="w-32 h-32 rounded-full object-cover border-4 border-cyan-500/50 mb-4">
-                        <h4 class="font-bold text-lg text-white">د. أحمد رأفت سليمان</h4>
-                        <p class="text-xs text-cyan-400">استشاري أمراض الباطنة والقلب</p>
-                        <span class="mt-3 text-[11px] bg-cyan-950 text-cyan-300 px-3 py-1 rounded-full"><i class="fa-solid fa-circle ml-1.5 text-emerald-400 text-[8px] animate-ping"></i> متصل بالمنظومة</span>
+                </div>
+                <!-- 3D DNA Canvas Panel -->
+                <div class="bg-panel rounded-[32px] border border-slate-800 p-6 flex flex-col justify-between items-center relative overflow-hidden h-[300px] lg:h-auto">
+                    <div class="absolute top-4 right-4 bg-slate-900/80 border border-slate-800 rounded-full px-3 py-1 text-[10px] text-accent font-bold z-10"><i class="fa-solid fa-cube animate-spin ml-1"></i> Interactive 3D Canvas</div>
+                    <div id="canvas-3d" class="w-full h-full min-h-[180px] cursor-grab"></div>
+                    <div class="text-center w-full z-10">
+                        <span class="text-xs font-bold text-slate-400">محاكي الهياكل الحيوية 3D</span>
+                        <p class="text-[10px] text-accent mt-0.5 font-mono">Powered by Three.js & Cap: Aymen</p>
                     </div>
                 </div>
             </div>
 
-            <div id="tab-pharmacy" class="tab-content hidden space-y-6">
-                <div id="critical-alert-box" class="hidden bg-red-950/60 border-2 border-red-500 p-5 rounded-2xl text-red-200 flex items-start space-x-4 space-x-reverse pulse-glow">
-                    <i class="fa-solid fa-triangle-exclamation text-4xl text-red-500"></i>
+            <!-- Command Center Status KPI Rows -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="bg-panel p-6 rounded-2xl border border-slate-800 flex items-start justify-between shadow-sm">
                     <div>
-                        <h4 class="font-bold text-lg text-red-400">منع الصرف الآلي: تداخل دوائي حرج ومميت!</h4>
-                        <p class="text-sm mt-1 text-gray-300">تم رصد دمج مادة (الوارفارين) مع (الأسبرين). يقوم النظام البرمجي فوراً بإيقاف عملية الصرف وحظر طباعة الفاتورة منعاً لحدوث نزيف داخلي للمريض عمر عبد العزيز.</p>
+                        <span class="text-slate-500 text-xs font-bold block mb-1">المبيعات المحققة</span>
+                        <span class="text-2xl font-black text-white">412,850 ج.م</span>
+                        <span class="text-emerald-400 text-[10px] font-bold block mt-1"><i class="fa-solid fa-circle-chevron-up"></i> +12.4% هذا الأسبوع</span>
                     </div>
+                    <div class="bg-emerald-500/10 p-3 rounded-xl text-emerald-400"><i class="fa-solid fa-chart-line-up"></i></div>
                 </div>
-
-                <h3 class="text-base font-bold text-amber-400"><i class="fa-solid fa-cubes ml-2"></i>المستودع الدوائي ورفوف الأدوية الذكية الحية:</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
-                    <div class="glass-card p-4 rounded-xl border-t-4 border-amber-500">
-                        <img src="https://images.unsplash.com/photo-1584017911766-d451b3d0e843?auto=format&fit=crop&w=200&q=80" class="w-full h-32 object-cover rounded-lg mb-3 shadow" alt="Insulin">
-                        <h5 class="font-bold text-white text-sm">أنسولين (Insulin)</h5>
-                        <p class="text-[11px] text-gray-400 mt-1">**الاستعمال:** تنظيم وتحسين مستويات السكر في الدم لمرضى السكري.</p>
+                <div class="bg-panel p-6 rounded-2xl border border-slate-800 flex items-start justify-between shadow-sm">
+                    <div>
+                        <span class="text-slate-500 text-xs font-bold block mb-1">معدل الحجوزات</span>
+                        <span class="text-2xl font-black text-white">1,240 حجز</span>
+                        <span class="text-emerald-400 text-[10px] font-bold block mt-1"><i class="fa-solid fa-circle-chevron-up"></i> +4.2% مقارنة بالماضي</span>
                     </div>
-                    <div class="glass-card p-4 rounded-xl border-t-4 border-blue-500">
-                        <img src="https://images.unsplash.com/photo-1471864190281-a93a3070b6de?auto=format&fit=crop&w=200&q=80" class="w-full h-32 object-cover rounded-lg mb-3 shadow" alt="Omeprazole">
-                        <h5 class="font-bold text-white text-sm">أوميبرازول (Omeprazole)</h5>
-                        <p class="text-[11px] text-gray-400 mt-1">**الاستعمال:** علاج قرحة المعدة والارتجاع المريئي الحاد وحماية الأمعاء.</p>
-                    </div>
-                    <div class="glass-card p-4 rounded-xl border-t-4 border-emerald-500">
-                        <img src="https://images.unsplash.com/photo-1607619056574-7b8d304f3c6f?auto=format&fit=crop&w=200&q=80" class="w-full h-32 object-cover rounded-lg mb-3 shadow" alt="Antibiotic">
-                        <h5 class="font-bold text-white text-sm">مضاد حيوي (Levofloxacin)</h5>
-                        <p class="text-[11px] text-gray-400 mt-1">**الاستعمال:** مضاد حيوي واسع المجال لعلاج التهابات الرئة والجهاز البولي.</p>
-                    </div>
-                    <div class="glass-card p-4 rounded-xl border-t-4 border-red-500">
-                        <img src="https://images.unsplash.com/photo-1550572017-edd951b55104?auto=format&fit=crop&w=200&q=80" class="w-full h-32 object-cover rounded-lg mb-3 shadow" alt="Warfarin">
-                        <h5 class="font-bold text-white text-sm">وارفارين (Warfarin 5mg)</h5>
-                        <p class="text-[11px] text-red-400 mt-1 font-bold">تنبيه: يتداخل كيميائياً مع الأسبرين ويمنعه النظام!</p>
-                    </div>
+                    <div class="bg-teal-500/10 p-3 rounded-xl text-accent"><i class="fa-solid fa-calendar-check"></i></div>
                 </div>
-                
-                <div class="glass-card p-4 rounded-xl bg-gray-950 mt-4 text-xs text-gray-400" id="live-receipt-text">
-                    في انتظار إرسال وتمرير الروشتة من بوابة الطبيب لتشغيل خوارزمية الفحص...
+                <div class="bg-panel p-6 rounded-2xl border border-slate-800 flex items-start justify-between shadow-sm">
+                    <div>
+                        <span class="text-slate-500 text-xs font-bold block mb-1">دقة قراءة الروشتات</span>
+                        <span class="text-2xl font-black text-white">99.8%</span>
+                        <span class="text-cyan-400 text-[10px] font-mono block mt-1">Deep OCR Processing</span>
+                    </div>
+                    <div class="bg-cyan-500/10 p-3 rounded-xl text-highlight"><i class="fa-solid fa-eye-dropper"></i></div>
+                </div>
+                <div class="bg-panel p-6 rounded-2xl border border-slate-800 flex items-start justify-between shadow-sm">
+                    <div>
+                        <span class="text-slate-500 text-xs font-bold block mb-1">سرعة الاستجابة</span>
+                        <span class="text-2xl font-black text-white">15ms</span>
+                        <span class="text-emerald-400 text-[10px] font-bold block mt-1">High-speed API Calls</span>
+                    </div>
+                    <div class="bg-indigo-500/10 p-3 rounded-xl text-indigo-400"><i class="fa-solid fa-bolt"></i></div>
                 </div>
             </div>
 
-            <div id="tab-radiology" class="tab-content hidden space-y-6">
-                <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
-                    <div class="glass-card p-6 rounded-2xl xl:col-span-2">
-                        <h3 class="text-xl font-bold text-red-400 mb-4"><i class="fa-solid fa-brain ml-2"></i>تحليل بكسلات الأشعة بنموذج التعلم العميق ResNet-152</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div class="border border-gray-800 rounded-2xl p-2 flex flex-col items-center justify-center relative bg-black overflow-hidden min-h-[240px]">
-                                <div id="ai-scanner-laser" class="laser-scanner absolute w-full left-0 hidden"></div>
-                                <img src="https://images.unsplash.com/photo-1559757175-5700dde675bc?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover rounded-xl" alt="X-Ray">
-                                <div id="ai-bounding-box" class="absolute border-2 border-red-500 bg-red-600/20 hidden w-28 h-28 rounded-xl animate-pulse">
-                                    <span class="absolute -top-6 right-0 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">بؤرة إصابة مصابة</span>
-                                </div>
-                            </div>
-                            <div class="flex flex-col justify-between space-y-4">
-                                <div class="bg-gray-950 p-4 rounded-xl border border-gray-800 flex-1 text-xs text-gray-400" id="ai-status-text">
-                                    اضغط على الزر بالأسفل لتمرير النبضات الضوئية على خلايا الأشعة...
-                                </div>
-                                <button onclick="startAIScan()" class="w-full bg-red-600 hover:bg-red-500 text-white font-bold p-3 rounded-xl transition">
-                                    إطلاق الفحص الضوئي بالـ AI
+            <!-- Dynamic Live Analytics Graphs -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Live Chart container -->
+                <div class="lg:col-span-2 bg-panel rounded-[24px] border border-slate-800 p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <div>
+                            <h3 class="font-extrabold text-white">مؤشرات الأداء ومراقبة العمليات الحيوية</h3>
+                            <p class="text-[10px] text-slate-500">تمثيل حركي لتدفقات البيانات بالنظام السحابي</p>
+                        </div>
+                        <span class="text-xs bg-accent/10 text-accent py-1 px-3 rounded-full font-bold">بث مباشر <i class="fa-solid fa-circle text-[8px] animate-ping mr-1"></i></span>
+                    </div>
+                    <div class="h-[280px]">
+                        <canvas id="livePerformanceChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Live System logs terminal -->
+                <div class="bg-panel rounded-[24px] border border-slate-800 p-6 flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-extrabold text-white mb-1 flex items-center gap-2"><i class="fa-solid fa-terminal text-accent text-xs"></i> سجل العمليات الفورية للهندسة الخلفية</h3>
+                        <p class="text-[10px] text-slate-500 mb-4">مراقبة الـ WebSockets واستدعاء خوارزميات الذكاء الاصطناعي</p>
+                        <div class="bg-primary rounded-xl p-4 font-code text-[11px] text-emerald-400 h-[210px] overflow-y-auto space-y-2" id="logs-container">
+                            <p class="text-slate-500">[14:30:11] INITIALIZING SHIFA CLOUD SYSTEM v2.5...</p>
+                            <p class="text-cyan-400">[14:30:12] SYSTEM CORE STACK DEPLOYED BY CAP: AYMEN.</p>
+                            <p class="text-amber-400">[14:30:15] REDIS CACHE STARTED. CONNECTION: OK.</p>
+                            <p class="text-teal-400">[14:30:18] DEEP OCR MODEL LOADED SUCCESSFULLY.</p>
+                        </div>
+                    </div>
+                    <div class="pt-4 border-t border-slate-800 flex items-center justify-between text-xs text-slate-500 font-mono">
+                        <span>DB STATS: PostgreSQL + Redis</span>
+                        <span class="text-accent">UPTIME: 100%</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. AI RADIOLOGY TAB -->
+        <section id="tab-radiology" class="tab-content hidden space-y-8">
+            <div class="bg-panel rounded-3xl border border-slate-800 p-6 sm:p-8">
+                <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-slate-800 pb-6 mb-8 gap-4">
+                    <div>
+                        <h2 class="text-2xl font-black text-white flex items-center gap-2"><i class="fa-solid fa-virus-covid text-accent"></i> محلل الأشعة التشخيصي بالذكاء الاصطناعي (AI Diagnostics)</h2>
+                        <p class="text-xs text-slate-400 mt-1">قم برفع أو اختيار صورة عينة لتشغيل خوارزميات الكشف الذاتي عن الأمراض وتحديد البؤر المصابة ومستوى الثقة.</p>
+                    </div>
+                    <span class="bg-accent/20 text-accent border border-accent/30 text-xs px-3 py-1 rounded-full font-bold">Deep Learning Model: ResNet-152</span>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    <!-- Sample Upload & Selection Selector -->
+                    <div class="lg:col-span-4 space-y-6">
+                        <div class="bg-primary p-6 rounded-2xl border border-slate-800/80">
+                            <h4 class="font-bold text-white mb-4">اختر عينة للفحص المباشر:</h4>
+                            <div class="grid grid-cols-2 gap-4">
+                                <button onclick="selectRadiologySample('xray')" class="group relative overflow-hidden rounded-xl border-2 border-slate-800 hover:border-accent transition-all">
+                                    <img src="https://images.unsplash.com/photo-1559757175-5700dde675bc?w=200" class="w-full h-24 object-cover filter brightness-75 group-hover:scale-105 transition-all">
+                                    <span class="absolute bottom-2 right-2 bg-primary/90 text-white text-[10px] font-bold px-2 py-0.5 rounded">أشعة سينية صدر</span>
+                                </button>
+                                <button onclick="selectRadiologySample('mri')" class="group relative overflow-hidden rounded-xl border-2 border-slate-800 hover:border-accent transition-all">
+                                    <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=200" class="w-full h-24 object-cover filter brightness-75 group-hover:scale-105 transition-all">
+                                    <span class="absolute bottom-2 right-2 bg-primary/90 text-white text-[10px] font-bold px-2 py-0.5 rounded">رنين مغناطيسي دماغي</span>
                                 </button>
                             </div>
                         </div>
+
+                        <div class="bg-primary p-6 rounded-2xl border border-slate-800/80">
+                            <h4 class="font-bold text-white mb-3">أو قم برفع أشعة من جهازك:</h4>
+                            <label class="border-2 border-dashed border-slate-800 hover:border-accent rounded-xl p-8 flex flex-col items-center justify-center cursor-pointer transition-all">
+                                <i class="fa-solid fa-cloud-arrow-up text-accent text-3xl mb-2 animate-bounce"></i>
+                                <span class="text-xs text-slate-300 font-bold">اسحب الملف أو اضغط للرفع</span>
+                                <span class="text-[10px] text-slate-500 mt-1">PNG, JPG, DICOM (Max 15MB)</span>
+                                <input type="file" class="hidden" onchange="handleRadiologyUpload(event)">
+                            </label>
+                        </div>
                     </div>
-                    <div class="glass-card p-6 rounded-2xl text-center flex flex-col items-center justify-center">
-                        <img src="https://images.unsplash.com/photo-1594824813573-246434e33963?auto=format&fit=crop&w=300&q=80" alt="Radiologist" class="w-32 h-32 rounded-full object-cover border-4 border-red-500/50 mb-4">
-                        <h4 class="font-bold text-lg text-white">د. ميار عبد الفتاح</h4>
-                        <p class="text-xs text-red-400">رئيسة وحدة الأشعة التشخيصية والـ AI</p>
+
+                    <!-- AI Interactive Visualizer Scan Area -->
+                    <div class="lg:col-span-8 bg-primary rounded-2xl border border-slate-800 p-6 flex flex-col justify-between min-h-[450px] relative overflow-hidden">
+                        <div class="absolute inset-0 z-0 opacity-20 bg-[radial-gradient(#14b8a6_1px,transparent_1px)] [background-size:24px_24px]"></div>
+                        
+                        <div class="relative z-10 w-full h-[320px] bg-black/80 rounded-xl overflow-hidden flex items-center justify-center border border-slate-800">
+                            <!-- Target image -->
+                            <img id="radiology-image" src="https://images.unsplash.com/photo-1559757175-5700dde675bc?w=800" class="max-h-full object-contain filter grayscale border border-slate-950">
+                            
+                            <!-- Bounding box with scanning pulse -->
+                            <div id="scan-bounding-box" class="absolute border-4 border-red-500 rounded hidden" style="top: 25%; left: 35%; width: 30%; height: 35%;">
+                                <div class="absolute -top-6 -right-1 bg-red-500 text-white font-code text-[9px] font-bold px-1 rounded shadow">PROBABILITY OF LESION: <span id="lesion-prob">87.4%</span></div>
+                            </div>
+
+                            <!-- Diagnostic Scanner Line -->
+                            <div id="laser-line" class="absolute left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent to-transparent scanner-line hidden"></div>
+                        </div>
+
+                        <div class="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-4 pt-6 mt-6 border-t border-slate-800">
+                            <div class="bg-panel p-3 rounded-xl border border-slate-800">
+                                <span class="text-slate-500 text-[10px] block">التشخيص المقترح</span>
+                                <strong id="ai-diagnostic-result" class="text-sm text-white">انتظار بدء التحليل...</strong>
+                            </div>
+                            <div class="bg-panel p-3 rounded-xl border border-slate-800">
+                                <span class="text-slate-500 text-[10px] block">دقة النتيجة والثقة</span>
+                                <strong id="ai-diagnostic-confidence" class="text-sm text-accent">00.0%</strong>
+                            </div>
+                            <button onclick="runAIDiagnostics()" class="bg-accent text-primary font-black py-3 px-6 rounded-xl hover:bg-cyan-400 transition-all flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-microscope"></i> تشغيل الفحص بالذكاء الاصطناعي
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. CLINIC BOOKING TAB -->
+        <section id="tab-booking" class="tab-content hidden space-y-6">
+            <div class="bg-panel rounded-3xl border border-slate-800 p-8">
+                <h2 class="text-2xl font-extrabold text-white mb-2 flex items-center gap-2"><i class="fa-solid fa-hospital text-accent"></i> منظومة إدارة وحجز مواعيد العيادات الطبية السريعة</h2>
+                <p class="text-slate-400 text-xs mb-8">اختر الطبيب المناسب واحجز موعداً وسوف يصل إشعار مباشر لملفه بالـ ERP، لتأكيد التوقيت المناسب فوراً.</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Doctor Card 1 -->
+                    <div class="bg-primary/80 border border-slate-800 rounded-2xl p-6 glow-border transition-all flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-4">
+                                <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=300" class="w-16 h-16 rounded-full object-cover border-2 border-accent/20">
+                                <div>
+                                    <span class="text-[9px] font-bold text-accent bg-accent/10 px-2 py-0.5 rounded">أستاذ أمراض القلب</span>
+                                    <h3 class="font-extrabold text-white text-base mt-1">د. حسام جلال</h3>
+                                </div>
+                            </div>
+                            <p class="text-xs text-slate-400 mt-4">عضو الجمعية الملكية البريطانية لأمراض الشرايين التاجية وعيادات القسطرة الطارئة.</p>
+                            <div class="flex items-center justify-between text-[11px] text-slate-500 mt-4">
+                                <span>الفيزيتا: <strong class="text-accent">300 ج.م</strong></span>
+                                <span>التقييم: <strong class="text-yellow-400">4.9/5★</strong></span>
+                            </div>
+                        </div>
+                        <button onclick="openBookingModal('د. حسام جلال', 'أمراض القلب', 300)" class="w-full mt-6 bg-slate-800 hover:bg-accent hover:text-primary text-slate-200 font-bold py-3 rounded-xl text-xs transition-all">احجز موعد كشف</button>
+                    </div>
+
+                    <!-- Doctor Card 2 -->
+                    <div class="bg-primary/80 border border-slate-800 rounded-2xl p-6 glow-border transition-all flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-4">
+                                <img src="https://images.unsplash.com/photo-1594824813573-246434e3b96f?w=300" class="w-16 h-16 rounded-full object-cover border-2 border-accent/20">
+                                <div>
+                                    <span class="text-[9px] font-bold text-cyan-400 bg-cyan-400/10 px-2 py-0.5 rounded">استشاري الباطنة والمناعة</span>
+                                    <h3 class="font-extrabold text-white text-base mt-1">د. مي الكاشف</h3>
+                                </div>
+                            </div>
+                            <p class="text-xs text-slate-400 mt-4">خبيرة علاج أمراض الجهاز الهضمي والاضطرابات المناعية المزمنة بكلية الطب القصر العيني.</p>
+                            <div class="flex items-center justify-between text-[11px] text-slate-500 mt-4">
+                                <span>الفيزيتا: <strong class="text-accent">250 ج.م</strong></span>
+                                <span>التقييم: <strong class="text-yellow-400">4.8/5★</strong></span>
+                            </div>
+                        </div>
+                        <button onclick="openBookingModal('د. مي الكاشف', 'الباطنة والمناعة', 250)" class="w-full mt-6 bg-slate-800 hover:bg-accent hover:text-primary text-slate-200 font-bold py-3 rounded-xl text-xs transition-all">احجز موعد كشف</button>
+                    </div>
+
+                    <!-- Doctor Card 3 -->
+                    <div class="bg-primary/80 border border-slate-800 rounded-2xl p-6 glow-border transition-all flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-4">
+                                <img src="https://images.unsplash.com/photo-1537368910025-700350fe46c7?w=300" class="w-16 h-16 rounded-full object-cover border-2 border-accent/20">
+                                <div>
+                                    <span class="text-[9px] font-bold text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded">جراحة عظام ومفاصل</span>
+                                    <h3 class="font-extrabold text-white text-base mt-1">د. ماجد ربيع</h3>
+                                </div>
+                            </div>
+                            <p class="text-xs text-slate-400 mt-4">رئيس وحدة جراحات المفاصل الصناعية والإصابات الرياضية والرباط الصليبي في مستشفيات عين شمس.</p>
+                            <div class="flex items-center justify-between text-[11px] text-slate-500 mt-4">
+                                <span>الفيزيتا: <strong class="text-accent">400 ج.م</strong></span>
+                                <span>التقييم: <strong class="text-yellow-400">5.0/5★</strong></span>
+                            </div>
+                        </div>
+                        <button onclick="openBookingModal('د. ماجد ربيع', 'جراحة العظام والمفاصل', 400)" class="w-full mt-6 bg-slate-800 hover:bg-accent hover:text-primary text-slate-200 font-bold py-3 rounded-xl text-xs transition-all">احجز موعد كشف</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. E-PHARMACY TAB -->
+        <section id="tab-pharmacy" class="tab-content hidden space-y-8">
+            <!-- Dynamic Pharmacy Threat Prevention System -->
+            <div id="drug-danger-alert" class="bg-red-950/80 border-2 border-red-500/50 rounded-2xl p-6 hidden animate-bounce glow-border">
+                <div class="flex items-start gap-4">
+                    <div class="bg-red-600 text-white p-3.5 rounded-xl"><i class="fa-solid fa-triangle-exclamation text-xl"></i></div>
+                    <div>
+                        <h4 class="font-extrabold text-white text-base">⚠️ نظام الأمان الدوائي يحذر: رصد تعارض تفاعلي مباشر!</h4>
+                        <p id="drug-danger-msg" class="text-sm text-red-300 mt-1"></p>
                     </div>
                 </div>
             </div>
 
-            <div id="tab-patient" class="tab-content hidden space-y-6">
-                <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
-                    <div class="glass-card p-6 rounded-2xl">
-                        <h4 class="font-bold text-purple-400 border-b border-gray-800 pb-2 mb-3">عمر عبد العزيز محمود</h4>
-                        <div class="space-y-2 text-xs">
-                            <div class="flex justify-between bg-gray-950 p-2.5 rounded-lg"><span class="text-gray-400">ضغط الدم</span><span class="text-emerald-400 font-bold">120/80 mmHg</span></div>
-                            <div class="flex justify-between bg-gray-950 p-2.5 rounded-lg"><span class="text-gray-400">النبض</span><span class="text-cyan-400 font-bold">74 bpm</span></div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Pharmacy Catalog -->
+                <div class="lg:col-span-2 space-y-6">
+                    <div class="bg-panel rounded-3xl border border-slate-800 p-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+                        <div>
+                            <h3 class="font-bold text-white text-lg">كتالوج الأدوية الذكي</h3>
+                            <p class="text-[10px] text-slate-500">ميزة الحماية تفحص تعارض المواد الفعالة تلقائياً قبل تأكيد الفاتورة.</p>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-xs text-slate-400">تصنيف المنتجات:</span>
+                            <select class="bg-primary border border-slate-800 text-slate-200 rounded-xl py-1.5 px-3 text-xs outline-none">
+                                <option>كل الأدوية والمنتجات</option>
+                                <option>مضادات التجلط</option>
+                                <option>المسكنات والقلب</option>
+                            </select>
                         </div>
                     </div>
-                    <div class="glass-card p-5 rounded-2xl xl:col-span-2 flex flex-col h-[300px] justify-between">
-                        <h4 class="font-bold text-purple-400 text-xs">مساعد الأعراض الطبي الذكي (Med-Bot)</h4>
-                        <div class="flex-1 overflow-y-auto space-y-2 p-2 bg-gray-950/60 rounded-xl text-xs my-2" id="chat-box">
-                            <p class="text-gray-400">أهلاً بك في منصة شِفَاء وَنَبْض الذكية. اضغط على أحد الأعراض لبدء الفحص والمحاكاة اللغوية:</p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <!-- Warfarin product -->
+                        <div class="bg-panel p-6 rounded-2xl border border-slate-800 flex flex-col justify-between h-52">
+                            <div>
+                                <span class="bg-red-500/10 text-red-400 border border-red-500/20 text-[9px] font-bold px-2 py-0.5 rounded">مضادات التجلط (Anticoagulant)</span>
+                                <h4 class="font-extrabold text-white text-base mt-2">وارفارين الصوديوم (Warfarin) 5ملج</h4>
+                                <p class="text-[11px] text-slate-400 mt-1">يمنع تخثر الدم والوقاية من الجلطات الرئوية والوريدية الحادة.</p>
+                            </div>
+                            <div class="flex items-center justify-between pt-4 border-t border-slate-800/80">
+                                <span class="text-accent font-bold">75 ج.م</span>
+                                <button onclick="addToCart(1, 'وارفارين (Warfarin)', 75, 'warfarin')" class="bg-secondary/20 hover:bg-accent hover:text-primary text-accent p-2.5 rounded-xl transition-all"><i class="fa-solid fa-plus-circle"></i> إضافة للسلة</button>
+                            </div>
                         </div>
-                        <div class="grid grid-cols-2 gap-2">
-                            <button onclick="sendBotMsg('chest')" class="bg-gray-900 text-gray-300 text-[11px] p-2 rounded-lg text-right border border-gray-800 hover:border-purple-500">أشعر بألم وثقل حاد في الصدر</button>
-                            <button onclick="sendBotMsg('migraine')" class="bg-gray-900 text-gray-300 text-[11px] p-2 rounded-lg text-right border border-gray-800 hover:border-purple-500">صداع نصفي حاد ومستمر</button>
+
+                        <!-- Aspirin product -->
+                        <div class="bg-panel p-6 rounded-2xl border border-slate-800 flex flex-col justify-between h-52">
+                            <div>
+                                <span class="bg-yellow-500/10 text-yellow-400 border border-yellow-500/20 text-[9px] font-bold px-2 py-0.5 rounded">مضاد الصفائح (Antiplatelet)</span>
+                                <h4 class="font-extrabold text-white text-base mt-2">أسبرين حماية القلب (Aspirin) 81ملج</h4>
+                                <p class="text-[11px] text-slate-400 mt-1">يستخدم لسيولة الدم وخفض مخاطر النوبات القلبية والسكتات.</p>
+                            </div>
+                            <div class="flex items-center justify-between pt-4 border-t border-slate-800/80">
+                                <span class="text-accent font-bold">40 ج.م</span>
+                                <button onclick="addToCart(2, 'أسبرين (Aspirin)', 40, 'aspirin')" class="bg-secondary/20 hover:bg-accent hover:text-primary text-accent p-2.5 rounded-xl transition-all"><i class="fa-solid fa-plus-circle"></i> إضافة للسلة</button>
+                            </div>
+                        </div>
+
+                        <!-- Ibuprofen product -->
+                        <div class="bg-panel p-6 rounded-2xl border border-slate-800 flex flex-col justify-between h-52">
+                            <div>
+                                <span class="bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[9px] font-bold px-2 py-0.5 rounded">مسكن ومضاد التهاب (NSAID)</span>
+                                <h4 class="font-extrabold text-white text-base mt-2">بروفين 400ملج (Ibuprofen)</h4>
+                                <p class="text-[11px] text-slate-400 mt-1">مسكن لآلام المفاصل والعضلات، وخافض فعال للحرارة العالية.</p>
+                            </div>
+                            <div class="flex items-center justify-between pt-4 border-t border-slate-800/80">
+                                <span class="text-accent font-bold">55 ج.م</span>
+                                <button onclick="addToCart(3, 'بروفين (Ibuprofen)', 55, 'ibuprofen')" class="bg-secondary/20 hover:bg-accent hover:text-primary text-accent p-2.5 rounded-xl transition-all"><i class="fa-solid fa-plus-circle"></i> إضافة للسلة</button>
+                            </div>
+                        </div>
+
+                        <!-- Panadol product -->
+                        <div class="bg-panel p-6 rounded-2xl border border-slate-800 flex flex-col justify-between h-52">
+                            <div>
+                                <span class="bg-teal-500/10 text-teal-400 border border-teal-500/20 text-[9px] font-bold px-2 py-0.5 rounded">مسكن ومسيل حمى (Analgesic)</span>
+                                <h4 class="font-extrabold text-white text-base mt-2">بنادول إكسترا (Panadol Extra)</h4>
+                                <p class="text-[11px] text-slate-400 mt-1">علاج حالات الصداع، ألم الأسنان، والبرد مع المادة الفعالة الباراسيتامول.</p>
+                            </div>
+                            <div class="flex items-center justify-between pt-4 border-t border-slate-800/80">
+                                <span class="text-accent font-bold">35 ج.م</span>
+                                <button onclick="addToCart(4, 'بنادول (Panadol Extra)', 35, 'panadol')" class="bg-secondary/20 hover:bg-accent hover:text-primary text-accent p-2.5 rounded-xl transition-all"><i class="fa-solid fa-plus-circle"></i> إضافة للسلة</button>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+                <!-- Shopping Cart Container -->
+                <div class="bg-panel rounded-3xl border border-slate-800 p-6 flex flex-col justify-between shadow-2xl h-fit sticky top-28">
+                    <div>
+                        <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-800/80">
+                            <h3 class="font-black text-white text-base flex items-center gap-2"><i class="fa-solid fa-basket-shopping text-accent"></i> فاتورتك الفورية</h3>
+                            <button onclick="clearCart()" class="text-[10px] text-slate-500 hover:text-warning font-bold">تفريغ السلة</button>
+                        </div>
+                        <div id="cart-items" class="min-h-[180px] text-center text-slate-500 text-xs flex flex-col justify-center items-center">
+                            <i class="fa-solid fa-cart-arrow-down text-3xl mb-2 text-slate-600"></i>
+                            السلة فارغة. ابدأ بإضافة الأدوية.
+                        </div>
+                    </div>
+                    <div class="pt-6 border-t border-slate-800/80 mt-6">
+                        <div class="flex justify-between items-center text-xs text-slate-400 mb-2">
+                            <span>الضريبة المضافة (%14)</span>
+                            <span id="tax-amount">0.00 ج.م</span>
+                        </div>
+                        <div class="flex justify-between items-center text-sm font-bold text-white mb-6">
+                            <span>المجموع الكلي:</span>
+                            <strong id="cart-total" class="text-accent text-lg">0 جنيه</strong>
+                        </div>
+                        <button onclick="checkoutOrder()" class="w-full bg-accent text-primary font-black py-3 rounded-xl hover:bg-cyan-400 transition-all shadow-lg shadow-teal-500/10">تأكيد ودفع الفاتورة</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. MED-LLM CHATBOT TAB -->
+        <section id="tab-chatbot" class="tab-content hidden space-y-6">
+            <div class="bg-panel rounded-3xl border border-slate-800 overflow-hidden shadow-2xl h-[550px] flex flex-col">
+                <div class="bg-slate-950/80 p-4 border-b border-slate-800 flex justify-between items-center">
+                    <div class="flex items-center gap-3">
+                        <div class="bg-accent/10 p-2 rounded-xl text-accent animate-pulse"><i class="fa-solid fa-brain-circuit"></i></div>
+                        <div>
+                            <span class="text-sm font-black text-white block">مساعد الأعراض والتشخيص الذكي (Med-LLM Copilot)</span>
+                            <span class="text-[9px] text-slate-400 font-mono">MODEL PARAMETERS: 70B Quantized</span>
+                        </div>
+                    </div>
+                    <span class="bg-emerald-500/15 text-emerald-400 border border-emerald-500/20 text-[10px] px-3 py-1 rounded-full font-bold">Online & Active</span>
+                </div>
+
+                <div id="chat-box" class="flex-grow p-6 overflow-y-auto bg-slate-950/20 space-y-4">
+                    <!-- Default Bot greeting -->
+                    <div class="flex items-start gap-3 max-w-xl">
+                        <div class="bg-accent text-primary p-2.5 rounded-xl"><i class="fa-solid fa-robot"></i></div>
+                        <div class="bg-slate-900 rounded-2xl p-4 border border-slate-800 text-slate-200">
+                            <p class="text-xs leading-relaxed">مرحباً بك في وحدة الرعاية المعززة بالذكاء الاصطناعي. أنا الطبيب المساعد المطور بواسطة **المهندس أيمن**. صف لي الأعراض الطبية التي تشعر بها وسوف أقوم بتحليلها ومطابقتها بالتخصص الأقرب فوراً.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-4 bg-slate-950/60 border-t border-slate-800 flex flex-col gap-4">
+                    <!-- Shortcut Symptom Prompts for Instant JURY DEMONSTRATION -->
+                    <div class="flex gap-2 overflow-x-auto pb-1">
+                        <button onclick="triggerQuickSymptom('ألم وثقل مستمر في منطقة الصدر ويمتد للكتف اليسرى')" class="bg-slate-900 border border-slate-800 hover:border-accent text-slate-300 text-[10px] font-bold py-1.5 px-3 rounded-full whitespace-nowrap transition-all flex items-center gap-1">🚨 ألم بالصدر والكتف</button>
+                        <button onclick="triggerQuickSymptom('صداع حاد في النصف الأيسر من الدماغ ومصحوب بغثيان وضبابية رؤية')" class="bg-slate-900 border border-slate-800 hover:border-accent text-slate-300 text-[10px] font-bold py-1.5 px-3 rounded-full whitespace-nowrap transition-all flex items-center gap-1">🧠 صداع حاد ونصفي</button>
+                    </div>
+
+                    <div class="flex gap-2">
+                        <input type="text" id="chat-input" placeholder="اكتب الأعراض بالتفصيل هنا..." class="flex-grow bg-slate-900 border border-slate-800 p-3 rounded-xl text-sm outline-none text-white focus:border-accent transition-all">
+                        <button onclick="sendChatMessage()" class="bg-accent text-primary px-8 rounded-xl font-bold hover:bg-cyan-400 transition-all flex items-center gap-2"><i class="fa-solid fa-paper-plane"></i> إرسال</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. DOCTOR PORTAL TAB -->
+        <section id="tab-doctor-portal" class="tab-content hidden space-y-8">
+            <div class="bg-panel p-8 rounded-3xl border border-slate-800 shadow-xl">
+                <div class="border-b border-slate-800 pb-6 mb-6">
+                    <h3 class="text-2xl font-black text-white flex items-center gap-2"><i class="fa-solid fa-file-invoice-dollar text-accent"></i> بوابة تحرير الروشتة الإلكترونية والسجلات الطبية EHR</h3>
+                    <p class="text-xs text-slate-400 mt-1">يمكن للطبيب الموثق من هنا إنشاء روشتة كاملة، ومزامنتها على السحابة لتظهر للمريض في الصيدلية تلقائياً.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div>
+                        <label class="text-xs text-slate-400 font-bold block mb-2">اسم المريض المستفيد</label>
+                        <input type="text" value="عمر عبد العزيز" readonly class="w-full bg-slate-900 border border-slate-800 p-3 rounded-xl text-sm text-slate-300 outline-none">
+                    </div>
+                    <div>
+                        <label class="text-xs text-slate-400 font-bold block mb-2">التشخيص الطبي الأولي</label>
+                        <input type="text" id="doc-diagnosis-field" placeholder="مثال: جلطة قلبية طفيفة / احتياج لسيولة تامة" class="w-full bg-slate-900 border border-slate-800 p-3 rounded-xl text-sm text-slate-300 outline-none focus:border-accent transition-all">
+                    </div>
+                </div>
+
+                <div class="space-y-4 mb-8">
+                    <h4 class="font-bold text-white text-sm">حدد الأدوية المطلوبة في الروشتة السحابية:</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <label class="bg-slate-900 p-4 rounded-xl border border-slate-800 flex items-center gap-3 cursor-pointer hover:border-accent transition-all">
+                            <input type="checkbox" id="pres-warfarin" class="w-4 h-4 text-accent bg-slate-900 border-slate-800 rounded">
+                            <span class="text-xs text-white">وارفارين 5ملج (Warfarin)</span>
+                        </label>
+                        <label class="bg-slate-900 p-4 rounded-xl border border-slate-800 flex items-center gap-3 cursor-pointer hover:border-accent transition-all">
+                            <input type="checkbox" id="pres-aspirin" class="w-4 h-4 text-accent bg-slate-900 border-slate-800 rounded">
+                            <span class="text-xs text-white">أسبرين حماية (Aspirin) 81ملج</span>
+                        </label>
+                        <label class="bg-slate-900 p-4 rounded-xl border border-slate-800 flex items-center gap-3 cursor-pointer hover:border-accent transition-all">
+                            <input type="checkbox" id="pres-ibuprofen" class="w-4 h-4 text-accent bg-slate-900 border-slate-800 rounded">
+                            <span class="text-xs text-white">بروفين 400ملج (Ibuprofen)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button onclick="publishCloudPrescription()" class="bg-accent text-primary font-black py-3.5 px-8 rounded-xl hover:bg-cyan-400 transition-all shadow-lg shadow-teal-500/20">
+                    <i class="fa-solid fa-cloud-arrow-up"></i> اعتماد وإرسال الروشتة السحابية
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer with Developer branding and quick social links -->
+    <footer class="bg-panel border-t border-slate-800 text-slate-500 text-xs py-12 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center text-center sm:text-right">
+                <div>
+                    <span class="text-white font-extrabold text-base block tracking-widest bg-gradient-to-r from-accent to-highlight bg-clip-text text-transparent">Designed & Engineered by Cap: Aymen</span>
+                    <p class="mt-2 text-xs text-slate-400">نظام موحد لحماية وصحة المجتمعات المعتمد كلياً على عمارة البيانات الحديثة والذكاء الاصطناعي.</p>
+                </div>
+                <div class="flex gap-4 justify-center md:justify-start">
+                    <a href="https://www.facebook.com/share/166Fkxbkb6h/" target="_blank" class="w-10 h-10 bg-primary/80 border border-slate-800 hover:border-blue-500 text-slate-400 hover:text-blue-500 rounded-xl flex items-center justify-center text-lg transition-all"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/ahmedaymen_119?igsh=MTd6ejR0N3c4MGhmNQ==" target="_blank" class="w-10 h-10 bg-primary/80 border border-slate-800 hover:border-pink-500 text-slate-400 hover:text-pink-500 rounded-xl flex items-center justify-center text-lg transition-all"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://x.com/Ahmed2004aa" target="_blank" class="w-10 h-10 bg-primary/80 border border-slate-800 hover:border-white text-slate-400 hover:text-white rounded-xl flex items-center justify-center text-lg transition-all"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="https://www.tiktok.com/@ahmedaymen51?_r=1&_t=ZS-96bEv63ZNjs" target="_blank" class="w-10 h-10 bg-primary/80 border border-slate-800 hover:border-white text-slate-400 hover:text-white rounded-xl flex items-center justify-center text-lg transition-all"><i class="fa-brands fa-tiktok"></i></a>
+                </div>
+                <div class="flex flex-col items-center sm:items-end">
+                    <span class="text-accent font-bold mb-2">للتواصل البرمجي والتنسيق:</span>
+                    <a href="tel:01212686014" class="text-white text-lg font-black bg-primary px-4 py-2 rounded-xl border border-slate-800 hover:border-accent transition-all">01212686014</a>
+                </div>
+            </div>
+            <div class="text-center mt-12 pt-6 border-t border-slate-800 text-[10px] text-slate-600 font-mono">
+                &copy; 2026 Shifa & Nabd Enterprise. Developed exclusively by المهندس أيمن. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Developer Identity modal (Cap Aymen Card) -->
+    <div id="dev-modal" class="fixed inset-0 bg-primary/95 backdrop-blur-md flex items-center justify-center z-[110] hidden p-6">
+        <div class="bg-panel rounded-[32px] max-w-sm w-full p-8 shadow-2xl relative text-center overflow-hidden border border-slate-800">
+            <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-accent to-highlight"></div>
+            <button onclick="closeDevModal()" class="absolute top-4 left-4 text-slate-400 hover:text-red-500 transition-all text-2xl"><i class="fa-solid fa-circle-xmark"></i></button>
+            
+            <div class="w-24 h-24 bg-primary text-accent rounded-3xl mx-auto flex items-center justify-center text-4xl mb-4 border-2 border-slate-800 shadow-xl">
+                <i class="fa-solid fa-code"></i>
+            </div>
+            <h2 class="text-2xl font-black text-white mb-1">Cap: Aymen</h2>
+            <p class="text-accent font-bold text-xs mb-6 font-mono tracking-widest">Lead Full-Stack Developer</p>
+            
+            <div class="space-y-3 mb-8 text-right">
+                <a href="tel:01212686014" class="flex items-center gap-3 bg-primary p-3 rounded-2xl border border-slate-800 hover:border-accent transition-all">
+                    <div class="w-10 h-10 bg-emerald-500/10 text-emerald-400 rounded-xl flex items-center justify-center"><i class="fa-solid fa-phone"></i></div>
+                    <div>
+                        <span class="text-slate-400 text-[9px] block">رقم الاتصال المباشر والواتساب</span>
+                        <span class="text-white font-bold text-sm">01212686014</span>
+                    </div>
+                </a>
             </div>
 
-        </main>
-    </div>
-
-    <div class="fixed bottom-6 left-6 z-50 flex flex-col items-end space-y-2">
-        <div class="glass-card p-4 rounded-2xl flex items-center space-x-3 space-x-reverse bg-[#0d1117] max-w-xs border border-emerald-500/30 shadow-2xl">
-            <div class="relative">
-                <img src="my-pic.jpg" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80'" alt="المهندس أيمن" class="w-14 h-14 rounded-full object-cover border-2 border-emerald-400">
-                <span class="absolute bottom-0 right-0 block h-3 w-3 rounded-full bg-emerald-500 ring-2 ring-black"></span>
+            <!-- Social Media grid -->
+            <div class="grid grid-cols-5 gap-2">
+                <a href="https://www.instagram.com/ahmedaymen_119?igsh=MTd6ejR0N3c4MGhmNQ==" target="_blank" class="w-full aspect-square bg-slate-900 hover:bg-pink-500/10 border border-slate-800 hover:border-pink-500 text-pink-500 rounded-xl flex items-center justify-center text-xl transition-all"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://www.facebook.com/share/166Fkxbkb6h/" target="_blank" class="w-full aspect-square bg-slate-900 hover:bg-blue-500/10 border border-slate-800 hover:border-blue-500 text-blue-500 rounded-xl flex items-center justify-center text-xl transition-all"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="https://www.threads.com/@ahmedaymen_119" target="_blank" class="w-full aspect-square bg-slate-900 hover:bg-white/10 border border-slate-800 hover:border-white text-white rounded-xl flex items-center justify-center text-xl transition-all"><i class="fa-brands fa-threads"></i></a>
+                <a href="https://x.com/Ahmed2004aa" target="_blank" class="w-full aspect-square bg-slate-900 hover:bg-sky-500/10 border border-slate-800 hover:border-sky-500 text-sky-400 rounded-xl flex items-center justify-center text-xl transition-all"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="https://www.tiktok.com/@ahmedaymen51?_r=1&_t=ZS-96bEv63ZNjs" target="_blank" class="w-full aspect-square bg-slate-900 hover:bg-white/10 border border-slate-800 hover:border-white text-white rounded-xl flex items-center justify-center text-xl transition-all"><i class="fa-brands fa-tiktok"></i></a>
             </div>
-            <div>
-                <h5 class="text-sm font-black text-white">المهندس أيمن</h5>
-                <p class="text-[11px] text-emerald-400 font-semibold">المطور الرئيسي للمنظومة</p>
-                <p class="text-[10px] text-gray-400 mt-0.5">Cap: Aymen</p>
-            </div>
+            
+            <p class="text-[9px] text-slate-500 mt-8 font-bold font-mono uppercase tracking-widest">Cloud Systems Design Verified</p>
         </div>
     </div>
 
+    <!-- Booking Confirmation Modal -->
+    <div id="booking-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 hidden p-4">
+        <div class="bg-panel rounded-3xl max-w-md w-full p-6 shadow-2xl relative border border-slate-800">
+            <button onclick="closeBookingModal()" class="absolute top-4 left-4 text-slate-400 hover:text-white transition-all text-xl"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-2"><i class="fa-solid fa-circle-check text-accent"></i> تأكيد حجز العيادة</h3>
+            <p id="modal-doc-name" class="text-sm font-bold text-slate-300 mb-4"></p>
+            <p class="text-xs text-slate-400 mb-6">سيتم جدولة موعدك آلياً في سجل الطبيب، وسوف تظهر التفاصيل على لوحة التحكم الرئيسية فوراً.</p>
+            <button onclick="confirmAppt()" class="w-full bg-accent text-primary font-black py-3 rounded-xl shadow-lg transition-all">تأكيد الموعد النهائي</button>
+        </div>
+    </div>
+
+    <!-- Custom toast notification element -->
+    <div id="toast" class="fixed bottom-6 left-6 z-[120] bg-slate-900 border border-accent/30 text-white rounded-2xl p-4 shadow-2xl max-w-sm hidden transition-all flex items-center gap-3">
+        <div class="bg-accent/10 p-2 rounded-xl text-accent" id="toast-icon"><i class="fa-solid fa-circle-info"></i></div>
+        <div>
+            <span class="text-xs font-bold block" id="toast-title">إشعار النظام</span>
+            <span class="text-[10px] text-slate-400" id="toast-message"></span>
+        </div>
+    </div>
+
+    <!-- MAIN SYSTEM LOGIC SCRIPTS -->
     <script>
-        // دالة التنقل الفورية والآمنة 100% بين الأقسام
-        function changeTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-            document.querySelectorAll('nav button').forEach(btn => {
-                btn.classList.remove('active-nav-btn');
-                btn.classList.add('text-gray-300');
-            });
+        let state = {
+            cart: [],
+            appointments: [],
+            currentTab: 'dashboard',
+            logs: []
+        };
+
+        // Tab Switching
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.add('hidden'));
             document.getElementById('tab-' + tabId).classList.remove('hidden');
-            document.getElementById('nav-' + tabId).classList.add('active-nav-btn');
-            document.getElementById('nav-' + tabId).classList.remove('text-gray-300');
+            
+            document.querySelectorAll('.nav-btn').forEach(b => {
+                b.classList.remove('text-accent', 'border-b-2', 'border-accent');
+                b.classList.add('text-slate-400');
+            });
+            
+            const activeNav = document.getElementById('nav-' + tabId);
+            if(activeNav) {
+                activeNav.classList.remove('text-slate-400');
+                activeNav.classList.add('text-accent', 'border-b-2', 'border-accent');
+            }
+            state.currentTab = tabId;
+            addLog(`Switched navigation tab: ${tabId.toUpperCase()}`);
         }
 
-        // فحص ال
+        // Developer Modal functions
+        function openDevModal() { document.getElementById('dev-modal').classList.remove('hidden'); }
+        function closeDevModal() { document.getElementById('dev-modal').classList.add('hidden'); }
+
+        // Live Log Terminal Simulator
+        function addLog(text, type = 'info') {
+            const container = document.getElementById('logs-container');
+            if(!container) return;
+            const timeStr = new Date().toTimeString().split(' ')[0];
+            let color = 'text-slate-400';
+            if (type === 'warn') color = 'text-warning';
+            if (type === 'success') color = 'text-accent';
+            container.innerHTML += `<p class="${color}">[${timeStr}] ${text}</p>`;
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // Beautiful custom Toast System
+        function showToast(title, message, isWarn = false) {
+            const toast = document.getElementById('toast');
+            const tTitle = document.getElementById('toast-title');
+            const tMsg = document.getElementById('toast-message');
+            const tIcon = document.getElementById('toast-icon');
+
+            tTitle.innerText = title;
+            tMsg.innerText = message;
+            if(isWarn) {
+                tIcon.className = 'bg-red-500/10 p-2 rounded-xl text-red-500';
+                tIcon.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>';
+                toast.classList.add('border-red-500/30');
+            } else {
+                tIcon.className = 'bg-accent/10 p-2 rounded-xl text-accent';
+                tIcon.innerHTML = '<i class="fa-solid fa-circle-info"></i>';
+                toast.classList.remove('border-red-500/30');
+            }
+            toast.classList.remove('hidden');
+            setTimeout(() => { toast.classList.add('hidden'); }, 4000);
+        }
+
+        // 3D DNA Helix visualization via Three.js
+        let scene, camera, renderer, dnagroup;
+        function init3D() {
+            const element = document.getElementById('canvas-3d');
+            if(!element) return;
+
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(45, element.offsetWidth / element.offsetHeight, 0.1, 1000);
+            camera.position.z = 15;
+
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(element.offsetWidth, element.offsetHeight);
+            element.appendChild(renderer.domElement);
+
+            // Construct Helix points
+            dnagroup = new THREE.Group();
+            const geometry = new THREE.SphereGeometry(0.15, 16, 16);
+            
+            for (let i = 0; i < 40; i++) {
+                const phi = i * 0.4;
+                const radius = 2.5;
+                
+                // First strand
+                const x1 = Math.cos(phi) * radius;
+                const y1 = (i - 20) * 0.3;
+                const z1 = Math.sin(phi) * radius;
+                const material1 = new THREE.MeshBasicMaterial({ color: 0x14b8a6 });
+                const sphere1 = new THREE.Mesh(geometry, material1);
+                sphere1.position.set(x1, y1, z1);
+                dnagroup.add(sphere1);
+
+                // Second strand
+                const x2 = Math.cos(phi + Math.PI) * radius;
+                const y2 = (i - 20) * 0.3;
+                const z2 = Math.sin(phi + Math.PI) * radius;
+                const material2 = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
+                const sphere2 = new THREE.Mesh(geometry, material2);
+                sphere2.position.set(x2, y2, z2);
+                dnagroup.add(sphere2);
+
+                // Connecting ladders
+                if(i % 2 === 0) {
+                    const lineGeo = new THREE.BufferGeometry().setFromPoints([
+                        new THREE.Vector3(x1, y1, z1),
+                        new THREE.Vector3(x2, y2, z2)
+                    ]);
+                    const lineMat = new THREE.LineBasicMaterial({ color: 0x1e293b, transparent: true, opacity: 0.5 });
+                    const line = new THREE.Line(lineGeo, lineMat);
+                    dnagroup.add(line);
+                }
+            }
+
+            scene.add(dnagroup);
+            animate3D();
+        }
+
+        function animate3D() {
+            requestAnimationFrame(animate3D);
+            if(dnagroup) {
+                dnagroup.rotation.y += 0.01;
+                dnagroup.rotation.x += 0.003;
+            }
+            renderer.render(scene, camera);
+        }
+
+        window.addEventListener('resize', () => {
+            const element = document.getElementById('canvas-3d');
+            if(!element || !renderer) return;
+            camera.aspect = element.offsetWidth / element.offsetHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(element.offsetWidth, element.offsetHeight);
+        });
+
+        // E-Pharmacy Actions
+        function addToCart(id, name, price, key) {
+            state.cart.push({name, price, key});
+            updateCart();
+            showToast('السلة الطبية', `تم إضافة ${name} لسلة المشتريات.`);
+            addLog(`Added to cart: ${name} (${price} EGP)`, 'success');
+        }
+
+        function clearCart() {
+            state.cart = [];
+            updateCart();
+            showToast('السلة الطبية', 'تم إفراغ السلة بالكامل.');
+            addLog('Cleared shopping cart.', 'warn');
+        }
+
+        function updateCart() {
+            const container = document.getElementById('cart-items');
+            const alertBox = document.getElementById('drug-danger-alert');
+            const badge = document.getElementById('cart-badge-count');
+            
+            if (state.cart.length === 0) {
+                container.innerHTML = `
+                    <div class="flex flex-col items-center justify-center py-8">
+                        <i class="fa-solid fa-basket-shopping text-3xl mb-2 text-slate-700"></i>
+                        <span>السلة فارغة. ابدأ بإضافة الأدوية.</span>
+                    </div>`;
+                badge.classList.add('hidden');
+                document.getElementById('cart-total').innerText = '0 جنيه';
+                document.getElementById('tax-amount').innerText = '0.00 ج.م';
+                alertBox.classList.add('hidden');
+                return;
+            }
+            
+            badge.classList.remove('hidden');
+            badge.innerText = state.cart.length;
+            container.innerHTML = '';
+            
+            let subtotal = 0;
+            state.cart.forEach((item, index) => {
+                subtotal += item.price;
+                container.innerHTML += `
+                    <div class="flex justify-between items-center p-3 bg-primary rounded-xl mb-2 border border-slate-800">
+                        <div>
+                            <span class="text-xs text-white block font-bold">${item.name}</span>
+                            <span class="text-[10px] text-slate-500">${item.price} ج.م</span>
+                        </div>
+                        <button onclick="removeFromCart(${index})" class="text-slate-600 hover:text-warning text-sm"><i class="fa-solid fa-trash"></i></button>
+                    </div>`;
+            });
+
+            const tax = subtotal * 0.14;
+            const finalTotal = subtotal + tax;
+
+            document.getElementById('tax-amount').innerText = `${tax.toFixed(2)} ج.م`;
+            document.getElementById('cart-total').innerText = `${finalTotal.toFixed(2)} ج.م`;
+
+            // Core AI Drug Interaction Prevention Algorithm
+            const keys = state.cart.map(i => i.key);
+            if (keys.includes('warfarin') && keys.includes('aspirin')) {
+                alertBox.classList.remove('hidden');
+                document.getElementById('drug-danger-msg').innerText = "تنبيه خطير جداً: لقد قمت بإضافة (الوارفارين) مع (الأسبرين). استخدام هذين الدوائين معاً يزيد بشكل كبير من احتمالية حدوث نزيف داخلي مميت لتضاعف مفعول السيولة.";
+                showToast('🚨 تحذير الأمان الدوائي', 'تفاعل دوائي خطير تم رصده في السلة!', true);
+                addLog('CRITICAL THREAT: Aspirin & Warfarin interaction detected!', 'warn');
+            } else {
+                alertBox.classList.add('hidden');
+            }
+        }
+
+        function removeFromCart(index) {
+            const removed = state.cart[index].name;
+            state.cart.splice(index, 1);
+            updateCart();
+            showToast('السلة الطبية', `تم إزالة ${removed} من السلة.`);
+            addLog(`Removed from cart: ${removed}`);
+        }
+
+        function checkoutOrder() {
+            if(state.cart.length === 0) {
+                showToast('خطأ بالعملية', 'يرجى إضافة أدوية للسلة أولاً للتسوية.', true);
+                return;
+            }
+            showToast('تمت التسوية بنجاح', 'تم تسجيل طلبك ومعالجته من السيرفر بنجاح!');
+            addLog('Order checked out successfully.', 'success');
+            state.cart = [];
+            updateCart();
+        }
+
+        // AI Radiology System simulation logic
+        let currentSampleMode = 'xray';
+        function selectRadiologySample(mode) {
+            currentSampleMode = mode;
+            const img = document.getElementById('radiology-image');
+            const boundingBox = document.getElementById('scan-bounding-box');
+            boundingBox.classList.add('hidden');
+
+            if(mode === 'xray') {
+                img.src = 'https://images.unsplash.com/photo-1559757175-5700dde675bc?w=800';
+                addLog('Selected sample: Chest X-Ray.');
+            } else {
+                img.src = 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800';
+                addLog('Selected sample: Brain MRI.');
+            }
+            document.getElementById('ai-diagnostic-result').innerText = "انتظار بدء التحليل...";
+            document.getElementById('ai-diagnostic-confidence').innerText = "00.0%";
+        }
+
+        function handleRadiologyUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.getElementById('radiology-image');
+                    img.src = e.target.result;
+                    addLog(`Uploaded new clinical image: ${file.name}`);
+                    showToast('مختبر الأشعة', 'تم تحميل الصورة الطبية بنجاح.');
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function runAIDiagnostics() {
+            const laser = document.getElementById('laser-line');
+            const boundingBox = document.getElementById('scan-bounding-box');
+            const resultText = document.getElementById('ai-diagnostic-result');
+            const confidenceText = document.getElementById('ai-diagnostic-confidence');
+
+            laser.classList.remove('hidden');
+            boundingBox.classList.add('hidden');
+            resultText.innerText = "جاري الفحص السحابي...";
+            confidenceText.innerText = "فحص الشبكة العصبية...";
+            addLog('AI INFERENCE IN PROGRESS: Scanning matrix vectors...', 'info');
+
+            setTimeout(() => {
+                laser.classList.add('hidden');
+                boundingBox.classList.remove('hidden');
+
+                if (currentSampleMode === 'xray') {
+                    resultText.innerText = "اشتباه التهاب رئوي حاد (Pneumonia)";
+                    confidenceText.innerText = "94.2%";
+                    document.getElementById('lesion-prob').innerText = "94.2%";
+                    addLog('INFERENCE COMPLETED: Pneumonia identified.', 'success');
+                } else {
+                    resultText.innerText = "اشتباه ورم حميد بالفص الصدغي";
+                    confidenceText.innerText = "89.7%";
+                    document.getElementById('lesion-prob').innerText = "89.7%";
+                    addLog('INFERENCE COMPLETED: Benign Brain Lesion identified.', 'success');
+                }
+                showToast('اكتمال تحليل الأشعة', 'اكتمل الكشف بالـ AI وتم رسم الـ Boundary Box.');
+            }, 3000);
+        }
+
+        // Doctor Clinic Reservations
+        let selectedDocData = {};
+        function openBookingModal(name, specialty, price) {
+            selectedDocData = { name, specialty, price };
+            document.getElementById('modal-doc-name').innerText = `الطبيب: ${name} (${specialty})`;
+            document.getElementById('booking-modal').classList.remove('hidden');
+        }
+
+        function closeBookingModal() {
+            document.getElementById('booking-modal').classList.add('hidden');
+        }
+
+        function confirmAppt() {
+            state.appointments.push(selectedDocData);
+            closeBookingModal();
+            updateAppts();
+            showToast('نجاح الحجز', 'تم جدولة الموعد وتأكيد الحجز فوراً!');
+            addLog(`Booked appointment with ${selectedDocData.name}`, 'success');
+            switchTab('dashboard');
+        }
+
+        function updateAppts() {
+            // Update dashboard list
+            const container = document.getElementById('appointments-list');
+            const placeholder = document.getElementById('no-appointments-msg');
+            
+            if(state.appointments.length === 0) {
+                placeholder.classList.remove('hidden');
+                container.classList.add('hidden');
+                return;
+            }
+
+            placeholder.classList.add('hidden');
+            container.classList.remove('hidden');
+            container.innerHTML = '';
+            
+            state.appointments.forEach(appt => {
+                container.innerHTML += `
+                    <div class="bg-primary border border-slate-800 p-4 rounded-xl flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="bg-accent/10 text-accent p-2.5 rounded-xl"><i class="fa-solid fa-user-doctor"></i></div>
+                            <div>
+                                <h5 class="text-xs text-white font-bold">${appt.name}</h5>
+                                <span class="text-[10px] text-slate-500">${appt.specialty} | الفيزيتا: ${appt.price} ج.م</span>
+                            </div>
+                        </div>
+                        <span class="text-[10px] bg-emerald-500/10 text-emerald-400 py-1 px-3 rounded-full font-bold">مؤكد ومجدول</span>
+                    </div>`;
+            });
+        }
+
+        // Live Chat Assistant Med-LLM Copilot
+        function sendChatMessage() {
+            const input = document.getElementById('chat-input');
+            const query = input.value.trim();
+            if (!query) return;
+            
+            processChatQuery(query);
+            input.value = '';
+        }
+
+        function triggerQuickSymptom(text) {
+            processChatQuery(text);
+        }
+
+        function processChatQuery(query) {
+            const chatBox = document.getElementById('chat-box');
+            
+            // Render user msg
+            chatBox.innerHTML += `
+                <div class="flex items-start gap-3 justify-end max-w-xl mr-auto text-left">
+                    <div class="bg-accent text-primary rounded-2xl p-4 text-xs font-bold font-mono">
+                        ${query}
+                    </div>
+                </div>`;
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // Render simulated AI thoughts / streaming loader
+            addLog(`LLM Query: "${query}" - running neural parsing.`);
+            
+            setTimeout(() => {
+                let response = "نظام شفاء الذكي: يرجى وصف موقع الألم أو الحالة بدقة لتوجيهك بشكل أفضل.";
+                if(query.includes('الصدر') || query.includes('ألم بالصدر')) {
+                    response = "تحذير أمني: الأعراض المذكورة تشير لآلام بالصدر ممتدة للكتف وقد تكون مؤشراً على أزمة قلبية حادة أو نوبة قلبية. يرجى التوجه فوراً لأقرب طبيب قلب أو الاتصال بالطوارئ فوراً. ننصحك بحجز استشارة مستعجلة لدى **د. حسام جلال** تخصص القلب بالمستشفى فوراً.";
+                } else if(query.includes('صداع')) {
+                    response = "تحليل Med-LLM: الصداع النصفي الشديد المصحوب بالتشويش البصري والغثيان يتطلب استشارة طبيب أمراض مخ وأعصاب أو باطنة ومناعة. ننصحك بمراجعة **د. مي الكاشف** بالعيادة الطبية لعمل الفحوصات اللازمة.";
+                }
+
+                chatBox.innerHTML += `
+                    <div class="flex items-start gap-3 max-w-xl">
+                        <div class="bg-accent text-primary p-2.5 rounded-xl"><i class="fa-solid fa-robot"></i></div>
+                        <div class="bg-slate-900 rounded-2xl p-4 border border-slate-800 text-slate-200">
+                            <p class="text-xs leading-relaxed">${response}</p>
+                        </div>
+                    </div>`;
+                chatBox.scrollTop = chatBox.scrollHeight;
+                addLog('LLM Inference complete. Tokens: 124 tokens generated.');
+            }, 1500);
+        }
+
+        // Doctor Cloud Prescription Publisher
+        function publishCloudPrescription() {
+            const diagnosis = document.getElementById('doc-diagnosis-field').value;
+            if(!diagnosis) {
+                showToast('تنبيه البوابة', 'يرجى ملء حقل التشخيص الطبي أولاً.', true);
+                return;
+            }
+
+            const isWarfarin = document.getElementById('pres-warfarin').checked;
+            const isAspirin = document.getElementById('pres-aspirin').checked;
+            const isIbuprofen = document.getElementById('pres-ibuprofen').checked;
+
+            if(!isWarfarin && !isAspirin && !isIbuprofen) {
+                showToast('تنبيه البوابة', 'يرجى تحديد دواء واحد على الأقل لكتابة الروشتة.', true);
+                return;
+            }
+
+            // Push items into pharmacy cart automatically
+            if(isWarfarin) state.cart.push({ name: 'وارفارين (Warfarin)', price: 75, key: 'warfarin' });
+            if(isAspirin) state.cart.push({ name: 'أسبرين (Aspirin)', price: 40, key: 'aspirin' });
+            if(isIbuprofen) state.cart.push({ name: 'بروفين (Ibuprofen)', price: 55, key: 'ibuprofen' });
+
+            updateCart();
+            showToast('الروشتة السحابية', 'تم اعتماد الروشتة بنجاح وتوجيه المريض وتحديث سلة الصيدلية!');
+            addLog(`Cloud Prescription published for Patient: Omar Abdelaziz`, 'success');
+            
+            // Reset fields
+            document.getElementById('doc-diagnosis-field').value = '';
+            document.getElementById('pres-warfarin').checked = false;
+            document.getElementById('pres-aspirin').checked = false;
+            document.getElementById('pres-ibuprofen').checked = false;
+
+            switchTab('pharmacy');
+        }
+
+        // Render Chart.js
+        let performanceChart;
+        function initCharts() {
+            const ctx = document.getElementById('livePerformanceChart').getContext('2d');
+            performanceChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'],
+                    datasets: [{
+                        label: 'معدل الطلبيات (الصيدلية)',
+                        data: [120, 190, 300, 250, 400, 380, 520],
+                        borderColor: '#14b8a6',
+                        backgroundColor: 'rgba(20, 184, 166, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        fill: true
+                    }, {
+                        label: 'عدد الفحوصات الناجحة (AI Radiology)',
+                        data: [50, 80, 140, 120, 220, 290, 340],
+                        borderColor: '#38bdf8',
+                        backgroundColor: 'rgba(56, 189, 248, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { labels: { color: '#94a3b8', font: { family: 'Cairo' } } }
+                    },
+                    scales: {
+                        x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8', font: { family: 'Cairo' } } },
+                        y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8', font: { family: 'Cairo' } } }
+                    }
+                }
+            });
+        }
+
+        // Initialize elements on DOM Ready
+        window.onload = function() {
+            init3D();
+            initCharts();
+            addLog('All systems loaded successfully. Developer mode: ON.');
+        }
+    </script>
+</body>
+</html>
+
+```
