@@ -3,35 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>شِفَاء وَنَبْض Enterprise - النسخة البصرية الفاخرة</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>شِفَاء وَنَبْض Enterprise - النسخة المستقرة والمبهرة</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap');
-        body { font-family: 'Cairo', sans-serif; background-color: #06090f; color: #f0f6fc; overflow-x: hidden; }
+        body { font-family: 'Cairo', sans-serif; background-color: #06090f; color: #f0f6fc; }
         
         .glass-card { 
-            background: rgba(13, 17, 23, 0.75); 
-            backdrop-filter: blur(16px); 
-            border: 1px solid rgba(48, 54, 61, 0.6); 
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(13, 17, 23, 0.85); 
+            backdrop-filter: blur(12px); 
+            border: 1px solid rgba(48, 54, 61, 0.8); 
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
         }
-        .glass-card:hover {
-            border-color: #34d399;
-            transform: translateY(-2px);
-            box-shadow: 0 12px 20px rgba(52, 211, 153, 0.15);
-        }
+        .glass-card:hover { border-color: #34d399; transform: translateY(-2px); }
+        .active-nav-btn { background: #047857 !important; color: white !important; border-right: 4px solid #34d399; }
         
-        .active-nav-btn { 
-            background: linear-gradient(90deg, #047857, #065f46) !important; 
-            color: white !important;
-            border-right: 4px solid #34d399;
-        }
-        
+        /* خط الليزر التفاعلي للأشعة */
         .laser-scanner { 
             height: 4px; 
             background: linear-gradient(90deg, transparent, #ef4444, transparent); 
@@ -39,208 +30,229 @@
             box-shadow: 0 0 12px #ef4444;
         }
         @keyframes scanEffect { 0% { top: 0%; } 50% { top: 100%; } 100% { top: 0%; } }
-        
         .pulse-glow { animation: pulseGlow 2s infinite; }
-        @keyframes pulseGlow { 0% { opacity: 0.7; } 50% { opacity: 1; transform: scale(1.01); } 100% { opacity: 0.7; } }
+        @keyframes pulseGlow { 0%, 100% { opacity: 0.7; } 50% { opacity: 1; } }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
 
-    <div class="bg-gradient-to-r from-emerald-900 via-green-800 to-cyan-900 text-white text-center py-2.5 px-6 text-sm font-bold flex justify-between items-center shadow-2xl border-b border-emerald-500/20">
+    <div class="bg-slate-900 text-white text-center py-2.5 px-6 text-sm font-bold flex justify-between items-center border-b border-emerald-500/30">
         <div class="flex items-center space-x-2 space-x-reverse">
             <span class="flex h-3 w-3 relative">
                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                 <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
             </span>
-            <span>المنظومة الفيدرالية المتكاملة: شِفَاء وَنَبْض Enterprise v3.0 Ultimate</span>
+            <span>شِفَاء وَنَبْض Enterprise v3.5 - النسخة المعتمدة</span>
         </div>
-        <div class="hidden lg:flex items-center space-x-4 space-x-reverse">
-            <span><i class="fa-solid fa-graduation-cap ml-1 text-emerald-400"></i> مشروع تخرج المهندس أيمن (Cap: Aymen)</span>
-            <span class="bg-black/40 px-3 py-1 rounded-full border border-gray-700 text-xs font-mono">01212686014</span>
+        <div>
+            <span><i class="fa-solid fa-graduation-cap ml-1 text-emerald-400"></i> مشروع تخرج المهندس أيمن</span>
         </div>
     </div>
 
     <div class="flex flex-1 flex-col lg:flex-row">
-        
-        <aside class="w-full lg:w-72 glass-card p-5 flex flex-col justify-between border-b lg:border-b-0 lg:border-l border-gray-800">
+        <aside class="w-full lg:w-72 glass-card p-5 flex flex-col justify-between border-l border-gray-800">
             <div>
-                <div class="text-center py-5 border-b border-gray-800 mb-6 bg-emerald-950/10 rounded-xl p-3">
-                    <h1 class="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400"><i class="fa-solid fa-heart-pulse ml-2 text-emerald-400 animate-pulse"></i>شِفَاء وَنَبْض</h1>
-                    <span class="text-[10px] text-gray-400 block mt-1 tracking-widest font-bold">DIGITAL HEALTH & PHARMA HUB</span>
+                <div class="text-center py-4 bg-emerald-950/20 rounded-xl p-3 mb-6">
+                    <h1 class="text-2xl font-black text-emerald-400"><i class="fa-solid fa-heart-pulse ml-2 animate-pulse"></i>شِفَاء وَنَبْض</h1>
+                    <span class="text-[10px] text-gray-400 block mt-1 font-bold">DIGITAL HEALTHCARE ECOSYSTEM</span>
                 </div>
                 
-                <nav class="space-y-2" id="sidebar-navigation">
-                    <button onclick="changeApplicationTab('dashboard')" id="nav-dashboard" class="nav-button active-nav-btn w-full flex items-center p-3 rounded-xl text-right transition hover:bg-gray-800/40">
-                        <i class="fa-solid fa-chart-line ml-3 w-6 text-emerald-400"></i> لوحة التحكم والتحليلات
-                    </button>
-                    <button onclick="changeApplicationTab('doctor')" id="nav-doctor" class="nav-button w-full flex items-center p-3 rounded-xl text-right transition hover:bg-gray-800/40">
-                        <i class="fa-solid fa-user-doctor ml-3 w-6 text-cyan-400"></i> عيادة الطبيب والروشتات
-                    </button>
-                    <button onclick="changeApplicationTab('pharmacy')" id="nav-pharmacy" class="nav-button w-full flex items-center p-3 rounded-xl text-right transition hover:bg-gray-800/40">
-                        <i class="fa-solid fa-prescription-bottle-medical ml-3 w-6 text-amber-400"></i> المستودع الدوائي الذكي
-                    </button>
-                    <button onclick="changeApplicationTab('radiology')" id="nav-radiology" class="nav-button w-full flex items-center p-3 rounded-xl text-right transition hover:bg-gray-800/40">
-                        <i class="fa-solid fa-microscope ml-3 w-6 text-red-400"></i> مختبر الأشعة والـ AI
-                    </button>
-                    <button onclick="changeApplicationTab('patient')" id="nav-patient" class="nav-button w-full flex items-center p-3 rounded-xl text-right transition hover:bg-gray-800/40">
-                        <i class="fa-solid fa-robot ml-3 w-6 text-purple-400"></i> بوابة المريض والـ Med-Bot
-                    </button>
+                <nav class="space-y-2">
+                    <button onclick="changeTab('dashboard')" id="nav-dashboard" class="w-full flex items-center p-3 rounded-xl text-right transition active-nav-btn"><i class="fa-solid fa-chart-line ml-3 text-emerald-400"></i> لوحة التحكم والتحليلات</button>
+                    <button onclick="changeTab('doctor')" id="nav-doctor" class="w-full flex items-center p-3 rounded-xl text-right transition text-gray-300"><i class="fa-solid fa-user-doctor ml-3 text-cyan-400"></i> عيادة الطبيب والروشتات</button>
+                    <button onclick="changeTab('pharmacy')" id="nav-pharmacy" class="w-full flex items-center p-3 rounded-xl text-right transition text-gray-300"><i class="fa-solid fa-prescription-bottle-medical ml-3 text-amber-400"></i> المستودع الدوائي الذكي</button>
+                    <button onclick="changeTab('radiology')" id="nav-radiology" class="w-full flex items-center p-3 rounded-xl text-right transition text-gray-300"><i class="fa-solid fa-microscope ml-3 text-red-400"></i> مختبر الأشعة والـ AI</button>
+                    <button onclick="changeTab('patient')" id="nav-patient" class="w-full flex items-center p-3 rounded-xl text-right transition text-gray-300"><i class="fa-solid fa-robot ml-3 text-purple-400"></i> بوابة المريض والـ Med-Bot</button>
                 </nav>
             </div>
-
-            <div class="mt-8 pt-4 border-t border-gray-800 text-center">
-                <p class="text-[11px] text-gray-500">إعداد وتطوير الطالب أيمن &copy; 2026</p>
-            </div>
+            <div class="text-center text-xs text-gray-500 pt-4 border-t border-gray-800">تطوير الطالب أيمن &copy; 2026</div>
         </aside>
 
         <main class="flex-1 p-6 lg:p-8 overflow-y-auto">
             
-            <section id="tab-dashboard" class="tab-panel space-y-6">
+            <div id="tab-dashboard" class="tab-content space-y-6">
                 <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
                     <div class="glass-card p-5 rounded-2xl flex items-center justify-between border-r-4 border-emerald-500">
-                        <div><p class="text-gray-400 text-xs font-bold">الحجوزات المؤكدة</p><h3 class="text-3xl font-black mt-1 text-emerald-400">1,248</h3></div>
+                        <div><p class="text-gray-400 text-xs font-bold">الحجوزات السحابية</p><h3 class="text-3xl font-black mt-1 text-emerald-400">1,248</h3></div>
                         <div class="p-3 bg-emerald-950/40 rounded-xl"><i class="fa-solid fa-calendar-check text-2xl text-emerald-400"></i></div>
                     </div>
                     <div class="glass-card p-5 rounded-2xl flex items-center justify-between border-r-4 border-cyan-500">
-                        <div><p class="text-gray-400 text-xs font-bold">فحوصات الـ AI</p><h3 class="text-3xl font-black mt-1 text-cyan-400">412</h3></div>
+                        <div><p class="text-gray-400 text-xs font-bold">تحليلات الـ AI للأشعة</p><h3 class="text-3xl font-black mt-1 text-cyan-400">412</h3></div>
                         <div class="p-3 bg-cyan-950/40 rounded-xl"><i class="fa-solid fa-brain text-2xl text-cyan-400"></i></div>
                     </div>
                     <div class="glass-card p-5 rounded-2xl flex items-center justify-between border-r-4 border-red-500">
                         <div><p class="text-gray-400 text-xs font-bold">التداخلات الممنوعة</p><h3 class="text-3xl font-black mt-1 text-red-400">18</h3></div>
-                        <div class="p-3 bg-red-950/40 rounded-xl"><i class="fa-solid fa-shield-virus text-2xl text-red-400"></i></div>
+                        <div class="p-3 bg-red-950/40 rounded-xl"><i class="fa-solid fa-shield-halved text-2xl text-red-400"></i></div>
                     </div>
                     <div class="glass-card p-5 rounded-2xl flex items-center justify-between border-r-4 border-purple-500">
-                        <div><p class="text-gray-400 text-xs font-bold">الأدوية الموثقة برمجياً</p><h3 class="text-3xl font-black mt-1 text-purple-400">120+</h3></div>
+                        <div><p class="text-gray-400 text-xs font-bold">الأدوية المسجلة</p><h3 class="text-3xl font-black mt-1 text-purple-400">120+</h3></div>
                         <div class="p-3 bg-purple-950/40 rounded-xl"><i class="fa-solid fa-pills text-2xl text-purple-400"></i></div>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
-                    <div class="glass-card p-6 rounded-2xl xl:col-span-2">
-                        <h4 class="font-bold text-gray-200 mb-4"><i class="fa-solid fa-chart-line ml-2 text-emerald-400"></i>الرسم البياني لتكامل مبيعات الأدوية والعمليات الطبية السحابية</h4>
-                        <canvas id="complexMedicalChart" class="w-full" height="135"></canvas>
-                    </div>
-                    <div class="glass-card p-6 rounded-2xl flex flex-col justify-between items-center bg-gradient-to-b from-[#0d1117] to-[#06090f]">
-                        <h4 class="w-full text-right font-bold text-cyan-400"><i class="fa-solid fa-atom ml-2 animate-spin"></i>الهندسة الجينية 3D DNA</h4>
-                        <div id="dna-canvas-holder" class="w-full h-56 my-2"></div>
-                        <p class="text-[11px] text-gray-500 font-medium">نموذج تفاعلي يعزز قوة العرض أمام الدكاترة</p>
-                    </div>
+                <div class="glass-card p-6 rounded-2xl">
+                    <h4 class="font-bold text-gray-200 mb-4"><i class="fa-solid fa-chart-line ml-2 text-emerald-400"></i>مراقبة الأداء العام ومعدلات الصرف الفوري للأدوية والـ AI</h4>
+                    <canvas id="complexMedicalChart" class="w-full" height="100"></canvas>
                 </div>
-            </section>
+            </div>
 
-            <section id="tab-doctor" class="tab-panel hidden space-y-6">
+            <div id="tab-doctor" class="tab-content hidden space-y-6">
                 <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
                     <div class="glass-card p-6 rounded-2xl xl:col-span-2">
-                        <h3 class="text-xl font-bold text-cyan-400 mb-4 flex items-center"><i class="fa-solid fa-file-medical ml-3 text-2xl"></i>تحرير الروشتة السحابية الذكية (E-Prescription)</h3>
+                        <h3 class="text-xl font-bold text-cyan-400 mb-4"><i class="fa-solid fa-file-medical ml-2"></i>منظومة تحرير الروشتات وفحص الأمان الدوائي</h3>
                         <div class="space-y-4">
                             <div>
-                                <label class="block text-xs font-bold text-gray-400 mb-2">اسم المريض ثلاثي</label>
-                                <input type="text" value="عمر عبد العزيز محمود" class="w-full p-3 rounded-xl bg-gray-950 border border-gray-800 text-white focus:outline-none focus:border-cyan-500">
+                                <label class="block text-xs font-bold text-gray-400 mb-2">اسم المريض</label>
+                                <input type="text" value="عمر عبد العزيز محمود" class="w-full p-3 rounded-xl bg-gray-950 border border-gray-800 text-white focus:outline-none">
                             </div>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
-                                    <label class="block text-xs font-bold text-amber-400 mb-2">الدواء الرئيسي الأول</label>
-                                    <select id="medical-drug-1" class="w-full p-3 rounded-xl bg-gray-950 border border-gray-800 text-white focus:outline-none">
-                                        <option value="warfarin">وارفارين (Warfarin 5mg) [مضاد تجلط]</option>
-                                        <option value="omeprazole">أوميبرازول (Omeprazole 20mg) [للمعدة]</option>
+                                    <label class="block text-xs font-bold text-amber-400 mb-2">العلاج الأول (مضاد تجلط)</label>
+                                    <select id="medical-drug-1" class="w-full p-3 rounded-xl bg-gray-950 border border-gray-800 text-white">
+                                        <option value="warfarin">وارفارين (Warfarin 5mg)</option>
+                                        <option value="omeprazole">أوميبرازول (Omeprazole 20mg)</option>
                                     </select>
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-bold text-red-400 mb-2">الدواء المصاحب الثاني</label>
-                                    <select id="medical-drug-2" class="w-full p-3 rounded-xl bg-gray-950 border border-gray-800 text-white focus:outline-none">
-                                        <option value="aspirin">أسبرين (Aspirin 81mg) [مسيل - تداخل خطر]</option>
-                                        <option value="insulin">أنسولين (Insulin Glargine) [مرضى السكر]</option>
+                                    <label class="block text-xs font-bold text-red-400 mb-2">العلاج الثاني (مسيل دم حاد)</label>
+                                    <select id="medical-drug-2" class="w-full p-3 rounded-xl bg-gray-950 border border-gray-800 text-white">
+                                        <option value="aspirin">أسبرين (Aspirin 81mg) [تداخل حرج وممنوع]</option>
+                                        <option value="insulin">أنسولين (Insulin Glargine)</option>
                                     </select>
                                 </div>
                             </div>
-                            <button onclick="processAndRoutePrescription()" class="w-full bg-gradient-to-r from-cyan-600 to-blue-700 text-white font-bold p-3.5 rounded-xl hover:from-cyan-500 transition mt-4 flex items-center justify-center">
-                                <i class="fa-solid fa-share-nodes ml-2"></i> إرسال آمن وفحص فوري للتداخل الدوائي
+                            <button onclick="checkPrescription()" class="w-full bg-cyan-600 hover:bg-cyan-500 text-white font-bold p-3.5 rounded-xl transition mt-4">
+                                <i class="fa-solid fa-share-nodes ml-2"></i> إرسال الروشتة وفحص التداخل تلقائياً
                             </button>
                         </div>
                     </div>
-                    <div class="glass-card p-6 rounded-2xl text-center flex flex-col items-center justify-center bg-gradient-to-b from-gray-900/50 to-black/30">
-                        <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=300&q=80" alt="Doctor" class="w-32 h-32 rounded-full object-cover border-4 border-cyan-500/50 shadow-xl mb-4">
+                    <div class="glass-card p-6 rounded-2xl text-center flex flex-col items-center justify-center">
+                        <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=300&q=80" alt="Doctor" class="w-32 h-32 rounded-full object-cover border-4 border-cyan-500/50 mb-4">
                         <h4 class="font-bold text-lg text-white">د. أحمد رأفت سليمان</h4>
-                        <p class="text-xs text-cyan-400 font-semibold mt-1">كبير أطباء الباطنة والقلب السحابي</p>
-                        <span class="mt-3 text-[11px] bg-cyan-950/60 border border-cyan-800 text-cyan-300 px-3 py-1 rounded-full"><i class="fa-solid fa-circle ml-1.5 text-emerald-400 text-[8px] animate-ping"></i> متصل بالمنظومة الآن</span>
+                        <p class="text-xs text-cyan-400">استشاري أمراض الباطنة والقلب</p>
+                        <span class="mt-3 text-[11px] bg-cyan-950 text-cyan-300 px-3 py-1 rounded-full"><i class="fa-solid fa-circle ml-1.5 text-emerald-400 text-[8px] animate-ping"></i> متصل بالمنظومة</span>
                     </div>
                 </div>
-            </section>
+            </div>
 
-            <section id="tab-pharmacy" class="tab-panel hidden space-y-6">
-                <div id="critical-alert-box" class="hidden bg-red-950/50 border-2 border-red-500 p-5 rounded-2xl text-red-200 flex items-start space-x-4 space-x-reverse pulse-glow">
+            <div id="tab-pharmacy" class="tab-content hidden space-y-6">
+                <div id="critical-alert-box" class="hidden bg-red-950/60 border-2 border-red-500 p-5 rounded-2xl text-red-200 flex items-start space-x-4 space-x-reverse pulse-glow">
                     <i class="fa-solid fa-triangle-exclamation text-4xl text-red-500"></i>
                     <div>
-                        <h4 class="font-bold text-lg text-red-400">تحذير أمني صيدلاني حرج: تداخل دوائي مميت!</h4>
-                        <p class="text-sm mt-1 text-gray-300">لقد قام الطبيب بدمج مادة (الوارفارين) و (الأسبرين). هذا الدمج البرمجي العشوائي يمنع طباعة الفاتورة أو صرف الدواء فوراً لحماية المريض من النزيف الداخلي الحاد الحتمي.</p>
+                        <h4 class="font-bold text-lg text-red-400">منع الصرف الآلي: تداخل دوائي حرج ومميت!</h4>
+                        <p class="text-sm mt-1 text-gray-300">تم رصد دمج مادة (الوارفارين) مع (الأسبرين). يقوم النظام البرمجي فوراً بإيقاف عملية الصرف وحظر طباعة الفاتورة منعاً لحدوث نزيف داخلي للمريض عمر عبد العزيز.</p>
                     </div>
                 </div>
 
-                <h3 class="text-lg font-bold text-amber-400 mb-2"><i class="fa-solid fa-cubes ml-2"></i>موسوعة ورفوف الأدوية الذكية الموثقة بالمنظومة:</h3>
+                <h3 class="text-base font-bold text-amber-400"><i class="fa-solid fa-cubes ml-2"></i>المستودع الدوائي ورفوف الأدوية الذكية الحية:</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
-                    
-                    <div class="glass-card p-4 rounded-xl border-t-4 border-amber-500 bg-gray-900/40">
-                        <img src="https://images.unsplash.com/photo-1584017911766-d451b3d0e843?auto=format&fit=crop&w=200&q=80" class="w-full h-32 object-cover rounded-lg mb-3 shadow-md" alt="Insulin">
-                        <h5 class="font-bold text-white text-base">أنسولين (Insulin Glargine)</h5>
-                        <p class="text-xs text-amber-400 font-mono mt-0.5">المادة الفعالة: هرمون الأنسولين الصناعي</p>
-                        <p class="text-[11px] text-gray-400 mt-2">**الاستعمال:** تنظيم وتحسين مستويات السكر في الدم لمرضى السكري من النوع الأول والثاني.</p>
-                        <span class="text-[10px] block mt-3 bg-gray-950 p-1.5 rounded text-center text-gray-500">الجرعة: حسب توجيهات الطبيب الدقيقة</span>
+                    <div class="glass-card p-4 rounded-xl border-t-4 border-amber-500">
+                        <img src="https://images.unsplash.com/photo-1584017911766-d451b3d0e843?auto=format&fit=crop&w=200&q=80" class="w-full h-32 object-cover rounded-lg mb-3 shadow" alt="Insulin">
+                        <h5 class="font-bold text-white text-sm">أنسولين (Insulin)</h5>
+                        <p class="text-[11px] text-gray-400 mt-1">**الاستعمال:** تنظيم وتحسين مستويات السكر في الدم لمرضى السكري.</p>
                     </div>
-
-                    <div class="glass-card p-4 rounded-xl border-t-4 border-blue-500 bg-gray-900/40">
-                        <img src="https://images.unsplash.com/photo-1471864190281-a93a3070b6de?auto=format&fit=crop&w=200&q=80" class="w-full h-32 object-cover rounded-lg mb-3 shadow-md" alt="Omeprazole">
-                        <h5 class="font-bold text-white text-base">أوميبرازول (Omeprazole)</h5>
-                        <p class="text-xs text-blue-400 font-mono mt-0.5">المادة الفعالة: بروتون بومب إنهيبتور</p>
-                        <p class="text-[11px] text-gray-400 mt-2">**الاستعمال:** علاج قرحة المعدة، الارتجاع المريئي الحاد وحماية جدار الأمعاء من الأحماض.</p>
-                        <span class="text-[10px] block mt-3 bg-gray-950 p-1.5 rounded text-center text-gray-500">الجرعة المعتادة: 20mg قبل الإفطار يومياً</span>
+                    <div class="glass-card p-4 rounded-xl border-t-4 border-blue-500">
+                        <img src="https://images.unsplash.com/photo-1471864190281-a93a3070b6de?auto=format&fit=crop&w=200&q=80" class="w-full h-32 object-cover rounded-lg mb-3 shadow" alt="Omeprazole">
+                        <h5 class="font-bold text-white text-sm">أوميبرازول (Omeprazole)</h5>
+                        <p class="text-[11px] text-gray-400 mt-1">**الاستعمال:** علاج قرحة المعدة والارتجاع المريئي الحاد وحماية الأمعاء.</p>
                     </div>
-
-                    <div class="glass-card p-4 rounded-xl border-t-4 border-emerald-500 bg-gray-900/40">
-                        <img src="https://images.unsplash.com/photo-1607619056574-7b8d304f3c6f?auto=format&fit=crop&w=200&q=80" class="w-full h-32 object-cover rounded-lg mb-3 shadow-md" alt="Levofloxacin">
-                        <h5 class="font-bold text-white text-base">ليفوفلوكساسين (Antibiotic)</h5>
-                        <p class="text-xs text-emerald-400 font-mono mt-0.5">المادة الفعالة: جيل ثالث فلوروكينولون</p>
-                        <p class="text-[11px] text-gray-400 mt-2">**الاستعمال:** مضاد حيوي واسع المجال لعلاج التهابات الرئة الحادة والجهاز البولي والمثانة.</p>
-                        <span class="text-[10px] block mt-3 bg-gray-950 p-1.5 rounded text-center text-gray-500">الجرعة: قرص واحد 500mg كل 24 ساعة</span>
+                    <div class="glass-card p-4 rounded-xl border-t-4 border-emerald-500">
+                        <img src="https://images.unsplash.com/photo-1607619056574-7b8d304f3c6f?auto=format&fit=crop&w=200&q=80" class="w-full h-32 object-cover rounded-lg mb-3 shadow" alt="Antibiotic">
+                        <h5 class="font-bold text-white text-sm">مضاد حيوي (Levofloxacin)</h5>
+                        <p class="text-[11px] text-gray-400 mt-1">**الاستعمال:** مضاد حيوي واسع المجال لعلاج التهابات الرئة والجهاز البولي.</p>
                     </div>
-
-                    <div class="glass-card p-4 rounded-xl border-t-4 border-red-500 bg-gray-900/40">
-                        <img src="https://images.unsplash.com/photo-1550572017-edd951b55104?auto=format&fit=crop&w=200&q=80" class="w-full h-32 object-cover rounded-lg mb-3 shadow-md" alt="Warfarin">
-                        <h5 class="font-bold text-white text-base">وارفارين (Warfarin 5mg)</h5>
-                        <p class="text-xs text-red-400 font-mono mt-0.5">المادة الفعالة: مضاد فيتامين K</p>
-                        <p class="text-[11px] text-gray-400 mt-2">**الاستعمال:** تمييع وميوعة الدم ومنع تشكل الجلطات داخل الأوعية الدموية والسكتات.</p>
-                        <span class="text-[10px] block mt-3 bg-gray-950 p-1.5 rounded text-center text-red-900/40 text-red-300 font-bold">تنبيه: يتداخل كيميائياً مع الأسبرين!</span>
+                    <div class="glass-card p-4 rounded-xl border-t-4 border-red-500">
+                        <img src="https://images.unsplash.com/photo-1550572017-edd951b55104?auto=format&fit=crop&w=200&q=80" class="w-full h-32 object-cover rounded-lg mb-3 shadow" alt="Warfarin">
+                        <h5 class="font-bold text-white text-sm">وارفارين (Warfarin 5mg)</h5>
+                        <p class="text-[11px] text-red-400 mt-1 font-bold">تنبيه: يتداخل كيميائياً مع الأسبرين ويمنعه النظام!</p>
                     </div>
-
                 </div>
-
-                <div class="glass-card p-5 rounded-2xl bg-gray-950/50 mt-4">
-                    <h4 class="font-bold text-sm text-gray-300 mb-2"><i class="fa-solid fa-receipt ml-2 text-amber-500"></i>مراقبة الروشتة السحابية الحالية:</h4>
-                    <div id="live-pharmacy-receipt" class="text-sm text-gray-500">في انتظار تحرير الروشتة من بوابة العيادة أولاً لتشغيل الفحص التلقائي الحامي...</div>
+                
+                <div class="glass-card p-4 rounded-xl bg-gray-950 mt-4 text-xs text-gray-400" id="live-receipt-text">
+                    في انتظار إرسال وتمرير الروشتة من بوابة الطبيب لتشغيل خوارزمية الفحص...
                 </div>
-            </section>
+            </div>
 
-            <section id="tab-radiology" class="tab-panel hidden space-y-6">
+            <div id="tab-radiology" class="tab-content hidden space-y-6">
                 <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
                     <div class="glass-card p-6 rounded-2xl xl:col-span-2">
-                        <h3 class="text-xl font-bold text-red-400 mb-4"><i class="fa-solid fa-brain ml-2"></i>تحليل مصفوفة الأشعة بنموذج التعلم العميق ResNet-152</h3>
-                        
+                        <h3 class="text-xl font-bold text-red-400 mb-4"><i class="fa-solid fa-brain ml-2"></i>تحليل بكسلات الأشعة بنموذج التعلم العميق ResNet-152</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div class="border-2 border-dashed border-gray-800 rounded-2xl p-3 flex flex-col items-center justify-center relative min-h-[250px] bg-black overflow-hidden">
+                            <div class="border border-gray-800 rounded-2xl p-2 flex flex-col items-center justify-center relative bg-black overflow-hidden min-h-[240px]">
                                 <div id="ai-scanner-laser" class="laser-scanner absolute w-full left-0 hidden"></div>
-                                <img src="https://images.unsplash.com/photo-1559757175-5700dde675bc?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover rounded-xl" alt="X-Ray Lung">
-                                
-                                <div id="ai-bounding-box" class="absolute border-2 border-red-500 bg-red-600/20 hidden w-28 h-28 top-1/4 left-1/3 rounded-xl shadow-[0_0_15px_rgba(239,68,68,0.6)] animate-pulse">
-                                    <span class="absolute -top-6 right-0 bg-red-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded">بؤرة إصابة رئوية</span>
+                                <img src="https://images.unsplash.com/photo-1559757175-5700dde675bc?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover rounded-xl" alt="X-Ray">
+                                <div id="ai-bounding-box" class="absolute border-2 border-red-500 bg-red-600/20 hidden w-28 h-28 rounded-xl animate-pulse">
+                                    <span class="absolute -top-6 right-0 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">بؤرة إصابة مصابة</span>
                                 </div>
                             </div>
-                            
                             <div class="flex flex-col justify-between space-y-4">
-                                <div class="bg-gray-950 p-4 rounded-xl border border-gray-800 flex-1">
-                                    <h4 class="font-bold text-xs text-gray-300 border-b border-gray-800 pb-2">سجل معالجة خوارزميات الـ AI:</h4>
-                                    <div id="ai-diagnostic-status" class="text-xs text-gray-400 mt-3 space-y-2">
-                                        <p class="text-gray-500"><i class="fa-solid fa-circle-notch animate-spin ml-2"></i> اضغط على الزر بالأسفل لتمرير النبضات الضوئية على بكسلات الأشعة...</p>
-                                    </div>
+                                <div class="bg-gray-950 p-4 rounded-xl border border-gray-800 flex-1 text-xs text-gray-400" id="ai-status-text">
+                                    اضغط على الزر بالأسفل لتمرير النبضات الضوئية على خلايا الأشعة...
                                 </div>
-                                <button onclick="executeRadiologyAIScan()" class="w-full bg-gradient-to-r from-red-600 to-rose-700 text-white font-bold p-3 rounded-xl transition shadow-xl">
-                                    <i class="fa-solid fa-bolt ml-1 animate-bounce"></i> إطلاق الفحص الضوئي والذكاء الاصطناعي
-                               
+                                <button onclick="startAIScan()" class="w-full bg-red-600 hover:bg-red-500 text-white font-bold p-3 rounded-xl transition">
+                                    إطلاق الفحص الضوئي بالـ AI
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="glass-card p-6 rounded-2xl text-center flex flex-col items-center justify-center">
+                        <img src="https://images.unsplash.com/photo-1594824813573-246434e33963?auto=format&fit=crop&w=300&q=80" alt="Radiologist" class="w-32 h-32 rounded-full object-cover border-4 border-red-500/50 mb-4">
+                        <h4 class="font-bold text-lg text-white">د. ميار عبد الفتاح</h4>
+                        <p class="text-xs text-red-400">رئيسة وحدة الأشعة التشخيصية والـ AI</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab-patient" class="tab-content hidden space-y-6">
+                <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+                    <div class="glass-card p-6 rounded-2xl">
+                        <h4 class="font-bold text-purple-400 border-b border-gray-800 pb-2 mb-3">عمر عبد العزيز محمود</h4>
+                        <div class="space-y-2 text-xs">
+                            <div class="flex justify-between bg-gray-950 p-2.5 rounded-lg"><span class="text-gray-400">ضغط الدم</span><span class="text-emerald-400 font-bold">120/80 mmHg</span></div>
+                            <div class="flex justify-between bg-gray-950 p-2.5 rounded-lg"><span class="text-gray-400">النبض</span><span class="text-cyan-400 font-bold">74 bpm</span></div>
+                        </div>
+                    </div>
+                    <div class="glass-card p-5 rounded-2xl xl:col-span-2 flex flex-col h-[300px] justify-between">
+                        <h4 class="font-bold text-purple-400 text-xs">مساعد الأعراض الطبي الذكي (Med-Bot)</h4>
+                        <div class="flex-1 overflow-y-auto space-y-2 p-2 bg-gray-950/60 rounded-xl text-xs my-2" id="chat-box">
+                            <p class="text-gray-400">أهلاً بك في منصة شِفَاء وَنَبْض الذكية. اضغط على أحد الأعراض لبدء الفحص والمحاكاة اللغوية:</p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="sendBotMsg('chest')" class="bg-gray-900 text-gray-300 text-[11px] p-2 rounded-lg text-right border border-gray-800 hover:border-purple-500">أشعر بألم وثقل حاد في الصدر</button>
+                            <button onclick="sendBotMsg('migraine')" class="bg-gray-900 text-gray-300 text-[11px] p-2 rounded-lg text-right border border-gray-800 hover:border-purple-500">صداع نصفي حاد ومستمر</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <div class="fixed bottom-6 left-6 z-50 flex flex-col items-end space-y-2">
+        <div class="glass-card p-4 rounded-2xl flex items-center space-x-3 space-x-reverse bg-[#0d1117] max-w-xs border border-emerald-500/30 shadow-2xl">
+            <div class="relative">
+                <img src="my-pic.jpg" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80'" alt="المهندس أيمن" class="w-14 h-14 rounded-full object-cover border-2 border-emerald-400">
+                <span class="absolute bottom-0 right-0 block h-3 w-3 rounded-full bg-emerald-500 ring-2 ring-black"></span>
+            </div>
+            <div>
+                <h5 class="text-sm font-black text-white">المهندس أيمن</h5>
+                <p class="text-[11px] text-emerald-400 font-semibold">المطور الرئيسي للمنظومة</p>
+                <p class="text-[10px] text-gray-400 mt-0.5">Cap: Aymen</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // دالة التنقل الفورية والآمنة 100% بين الأقسام
+        function changeTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('nav button').forEach(btn => {
+                btn.classList.remove('active-nav-btn');
+                btn.classList.add('text-gray-300');
+            });
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+            document.getElementById('nav-' + tabId).classList.add('active-nav-btn');
+            document.getElementById('nav-' + tabId).classList.remove('text-gray-300');
+        }
+
+        // فحص ال
